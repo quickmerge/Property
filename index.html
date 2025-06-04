@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalPropCompare | Advanced Property Comparison</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        :root {
+            --primary: #4f46e5;
+            --secondary: #10b981;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #10b981;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            bottom: -4px;
+            left: 0;
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            width: 30px;
+            height: 20px;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--dark);
+            transition: all 0.3s;
+        }
+        
+        .mobile-menu {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
+            transform: translateY(-150%);
+            transition: transform 0.3s;
+            z-index: 999;
+        }
+        
+        .mobile-menu.active {
+            transform: translateY(0);
+        }
+        
+        .mobile-menu a {
+            display: block;
+            padding: 1rem 0;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .mobile-menu a:hover {
+            color: var(--primary);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .search-box {
+            display: flex;
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 50px;
+            padding: 8px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-box input {
+            flex: 1;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 50px 0 0 50px;
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        .search-box button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .search-box button:hover {
+            background: #4338ca;
+        }
+        
+        /* Floating Animation Elements */
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(79, 70, 229, 0.1);
+            animation: float 6s ease-in-out infinite;
+            z-index: 0;
+        }
+        
+        .element-1 {
+            width: 150px;
+            height: 150px;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+        
+        .element-2 {
+            width: 100px;
+            height: 100px;
+            bottom: 15%;
+            right: 10%;
+            animation-delay: 1s;
+        }
+        
+        .element-3 {
+            width: 80px;
+            height: 80px;
+            top: 30%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title p {
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .feature-card p {
+            color: var(--gray);
+            line-height: 1.6;
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        /* Property Comparison Tools */
+        .comparison-tools {
+            padding: 4rem 2rem;
+            background: white;
+        }
+        
+        .tool-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tool-tabs {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 2rem;
+        }
+        
+        .tool-tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--gray);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tool-tab.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+        }
+        
+        .tool-content {
+            display: none;
+        }
+        
+        .tool-content.active {
+            display: block;
+        }
+        
+        .property-input {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .property-input input {
+            flex: 1;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        .property-input button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .property-input button:hover {
+            background: #4338ca;
+        }
+        
+        .comparison-results {
+            margin-top: 2rem;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .result-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .result-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .result-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .pros-cons-list {
+            margin-top: 1rem;
+        }
+        
+        .pros-cons-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .pros-cons-list li i {
+            margin-right: 0.5rem;
+        }
+        
+        .pro {
+            color: var(--success);
+        }
+        
+        .con {
+            color: var(--danger);
+        }
+        
+        .chart-container {
+            height: 300px;
+            margin-top: 2rem;
+            position: relative;
+        }
+        
+        .neighborhood-factors {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .factor {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        
+        .factor-score {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .score-high {
+            background: var(--success);
+        }
+        
+        .score-medium {
+            background: var(--warning);
+        }
+        
+        .score-low {
+            background: var(--danger);
+        }
+        
+        .factor-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        /* How It Works Section */
+        .how-it-works {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        }
+        
+        .steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .step {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: transform 0.3s;
+        }
+        
+        .step:hover {
+            transform: scale(1.05);
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin: 0 auto 1rem;
+        }
+        
+        .step h3 {
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .step p {
+            color: var(--gray);
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 2rem 2rem;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 2px;
+            background: var(--primary);
+            bottom: -8px;
+            left: 0;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-column ul li a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .property-input {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero {
+                padding: 7rem 1.5rem 3rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                border-radius: 12px;
+            }
+            
+            .search-box input {
+                border-radius: 12px 12px 0 0;
+            }
+            
+            .search-box button {
+                border-radius: 0 0 12px 12px;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .navbar {
+                padding: 1rem;
+            }
+            
+            .logo {
+                font-size: 1.2rem;
+            }
+            
+            .hero {
+                padding: 6rem 1rem 2rem;
+            }
+            
+            .features, .how-it-works, .comparison-tools {
+                padding: 2rem 1rem;
+            }
+            
+            .tool-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tool-tab {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="navbar">
+            <a href="#" class="logo">Global<span>Prop</span>Compare</a>
+            
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#tools">Property Tools</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+            
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#home">Home</a>
+            <a href="#tools">Property Tools</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="floating-element element-1"></div>
+        <div class="floating-element element-2"></div>
+        <div class="floating-element element-3"></div>
+        
+        <h1>Compare Properties Worldwide</h1>
+        <p>Get comprehensive insights on any property including estimated rent, neighborhood analysis, pros & cons, and investment potential.</p>
+        
+        <div class="search-box">
+            <input type="text" id="propertySearch" placeholder="Enter property address or URL...">
+            <button id="searchButton">Analyze Property</button>
+        </div>
+    </section>
+    
+    <!-- Property Comparison Tools -->
+    <section class="comparison-tools" id="tools">
+        <div class="section-title">
+            <h2>Property Analysis Tools</h2>
+            <p>Powerful tools to help you make informed real estate decisions</p>
+        </div>
+        
+        <div class="tool-container">
+            <div class="tool-tabs">
+                <div class="tool-tab active" data-tab="comparison">Comparison</div>
+                <div class="tool-tab" data-tab="rent-estimator">Rent Estimator</div>
+                <div class="tool-tab" data-tab="pros-cons">Pros & Cons</div>
+                <div class="tool-tab" data-tab="neighborhood">Neighborhood</div>
+            </div>
+            
+            <!-- Property Comparison Tool -->
+            <div class="tool-content active" id="comparison-tool">
+                <div class="property-input">
+                    <input type="text" id="property1" placeholder="Enter first property URL or address">
+                    <input type="text" id="property2" placeholder="Enter second property URL or address">
+                    <button id="compareButton">Compare</button>
+                </div>
+                
+                <div class="comparison-results" id="comparisonResults">
+                    <div class="results-grid">
+                        <!-- Results will be populated here by JavaScript -->
+                    </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="comparisonChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Rent Estimator Tool -->
+            <div class="tool-content" id="rent-estimator-tool">
+                <div class="property-input">
+                    <input type="text" id="rentProperty" placeholder="Enter property URL or address">
+                    <button id="estimateButton">Estimate Rent</button>
+                </div>
+                
+                <div class="comparison-results" id="rentResults">
+                    <div class="results-grid">
+                        <div class="result-card">
+                            <h3>Estimated Monthly Rent</h3>
+                            <div class="result-value" id="estimatedRent">$0</div>
+                            <div class="result-label">Based on comparable properties in this area</div>
+                        </div>
+                        
+                        <div class="result-card">
+                            <h3>Rental Yield</h3>
+                            <div class="result-value" id="rentalYield">0%</div>
+                            <div class="result-label">Annual return on investment</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="rentTrendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pros & Cons Tool -->
+            <div class="tool-content" id="pros-cons-tool">
+                <div class="property-input">
+                    <input type="text" id="prosConsProperty" placeholder="Enter property URL or address">
+                    <button id="analyzeButton">Analyze</button>
+                </div>
+                
+                <div class="comparison-results" id="prosConsResults">
+                    <div class="results-grid">
+                        <div class="result-card">
+                            <h3>Property Advantages</h3>
+                            <ul class="pros-cons-list" id="prosList">
+                                <!-- Pros will be populated here by JavaScript -->
+                            </ul>
+                        </div>
+                        
+                        <div class="result-card">
+                            <h3>Property Disadvantages</h3>
+                            <ul class="pros-cons-list" id="consList">
+                                <!-- Cons will be populated here by JavaScript -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Neighborhood Analysis Tool -->
+            <div class="tool-content" id="neighborhood-tool">
+                <div class="property-input">
+                    <input type="text" id="neighborhoodProperty" placeholder="Enter property URL or address">
+                    <button id="neighborhoodButton">Analyze</button>
+                </div>
+                
+                <div class="comparison-results" id="neighborhoodResults">
+                    <div class="results-grid">
+                        <div class="result-card">
+                            <h3>Neighborhood Summary</h3>
+                            <p id="neighborhoodSummary">Enter a property to see neighborhood insights.</p>
+                            
+                            <h4 style="margin-top: 1rem;">Key Factors</h4>
+                            <div class="neighborhood-factors" id="neighborhoodFactors">
+                                <!-- Factors will be populated here by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="result-card">
+                            <h3>Nearby Amenities</h3>
+                            <div id="amenitiesList">
+                                <!-- Amenities will be populated here by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="crimeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="about">
+        <div class="section-title">
+            <h2>How It Works</h2>
+            <p>Get property insights in just 3 simple steps</p>
+        </div>
+        
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Find Property</h3>
+                <p>Search for a property by address or paste a link from any real estate website worldwide.</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Generate Report</h3>
+                <p>Our system analyzes the property and compiles a comprehensive report in seconds.</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Compare & Decide</h3>
+                <p>Compare multiple properties side-by-side and make informed decisions with confidence.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>GlobalPropCompare</h3>
+                <p>Making property comparison simple and insightful for buyers, renters, and investors worldwide.</p>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#tools">Property Tools</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Features</h3>
+                <ul>
+                    <li><a href="#tools">Property Comparison</a></li>
+                    <li><a href="#tools">Rent Estimates</a></li>
+                    <li><a href="#tools">Neighborhood Data</a></li>
+                    <li><a href="#tools">Investment Analysis</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <ul>
+                    <li><a href="mailto:info@globalpropcompare.com">info@globalpropcompare.com</a></li>
+                    <li><a href="tel:+1234567890">+1 (234) 567-890</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2023 GlobalPropCompare. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        // Mobile Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            
+            // Animate hamburger icon
+            if (hamburger.classList.contains('active')) {
+                hamburger.children[0].style.transform = 'rotate(45deg) translate(5px, 6px)';
+                hamburger.children[1].style.opacity = '0';
+                hamburger.children[2].style.transform = 'rotate(-45deg) translate(5px, -6px)';
+            } else {
+                hamburger.children[0].style.transform = 'rotate(0) translate(0)';
+                hamburger.children[1].style.opacity = '1';
+                hamburger.children[2].style.transform = 'rotate(0) translate(0)';
+            }
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (mobileMenu.classList.contains('active')) {
+                        hamburger.click();
+                    }
+                }
+            });
+        });
+        
+        // Add floating animation to feature cards on scroll
+        const featureCards = document.querySelectorAll('.feature-card');
+        
+        const animateOnScroll = () => {
+            featureCards.forEach(card => {
+                const cardPosition = card.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (cardPosition < screenPosition) {
+                    card.style.animation = 'float 4s ease-in-out infinite';
+                }
+            });
+        };
+        
+        window.addEventListener('scroll', animateOnScroll);
+        animateOnScroll(); // Run once on page load
+        
+        // Tab Switching Functionality
+        const tabs = document.querySelectorAll('.tool-tab');
+        const tabContents = document.querySelectorAll('.tool-content');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(`${tabId}-tool`).classList.add('active');
+            });
+        });
+        
+        // Property Comparison Functionality
+        document.getElementById('compareButton').addEventListener('click', compareProperties);
+        document.getElementById('estimateButton').addEventListener('click', estimateRent);
+        document.getElementById('analyzeButton').addEventListener('click', analyzeProsCons);
+        document.getElementById('neighborhoodButton').addEventListener('click', analyzeNeighborhood);
+        document.getElementById('searchButton').addEventListener('click', searchProperty);
+        
+        // Sample property data (in a real app, this would come from an API)
+        const sampleProperties = {
+            '123 Main St': {
+                price: 450000,
+                beds: 3,
+                baths: 2,
+                sqft: 1800,
+                yearBuilt: 1995,
+                rentEstimate: 2200,
+                pros: [
+                    'Spacious backyard',
+                    'Recently renovated kitchen',
+                    'Good school district',
+                    'Low property taxes'
+                ],
+                cons: [
+                    'Older HVAC system',
+                    'No garage',
+                    'Busy street'
+                ],
+                neighborhood: {
+                    safety: 8,
+                    schools: 7,
+                    walkability: 6,
+                    amenities: 8,
+                    summary: 'A family-friendly neighborhood with good schools and plenty of parks. The area has seen steady appreciation over the last 5 years.'
+                },
+                amenities: [
+                    'Park - 0.3 miles',
+                    'Supermarket - 0.5 miles',
+                    'Elementary School - 0.4 miles',
+                    'Restaurants - 0.2 miles'
+                ]
+            },
+            '456 Oak Ave': {
+                price: 520000,
+                beds: 4,
+                baths: 3,
+                sqft: 2400,
+                yearBuilt: 2010,
+                rentEstimate: 2800,
+                pros: [
+                    'Modern construction',
+                    'Open floor plan',
+                    'Quiet cul-de-sac location',
+                    'Energy efficient'
+                ],
+                cons: [
+                    'Smaller yard',
+                    'Higher HOA fees',
+                    'Longer commute to downtown'
+                ],
+                neighborhood: {
+                    safety: 9,
+                    schools: 8,
+                    walkability: 4,
+                    amenities: 7,
+                    summary: 'A newer development with modern homes and community amenities. Excellent safety ratings but limited walkability.'
+                },
+                amenities: [
+                    'Community Pool - 0.1 miles',
+                    'Shopping Center - 1.2 miles',
+                    'Middle School - 0.8 miles',
+                    'Highway Access - 2 miles'
+                ]
+            }
+        };
+        
+        // Function to compare two properties
+        function compareProperties() {
+            const prop1 = document.getElementById('property1').value;
+            const prop2 = document.getElementById('property2').value;
+            
+            if (!prop1 || !prop2) {
+                alert('Please enter both properties to compare');
+                return;
+            }
+            
+            // In a real app, you would fetch data from an API
+            // Here we'll use our sample data
+            const property1 = sampleProperties['123 Main St'];
+            const property2 = sampleProperties['456 Oak Ave'];
+            
+            const resultsGrid = document.querySelector('#comparisonResults .results-grid');
+            resultsGrid.innerHTML = `
+                <div class="result-card">
+                    <h3>Price</h3>
+                    <div class="result-value">$${property1.price.toLocaleString()} vs $${property2.price.toLocaleString()}</div>
+                    <div class="result-label">${property1.price < property2.price ? 'Property 1 is cheaper' : 'Property 2 is cheaper'}</div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Bedrooms</h3>
+                    <div class="result-value">${property1.beds} vs ${property2.beds}</div>
+                    <div class="result-label">${property1.beds > property2.beds ? 'Property 1 has more bedrooms' : 'Property 2 has more bedrooms'}</div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Bathrooms</h3>
+                    <div class="result-value">${property1.baths} vs ${property2.baths}</div>
+                    <div class="result-label">${property1.baths > property2.baths ? 'Property 1 has more bathrooms' : 'Property 2 has more bathrooms'}</div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>Square Footage</h3>
+                    <div class="result-value">${property1.sqft.toLocaleString()} vs ${property2.sqft.toLocaleString()}</div>
+                    <div class="result-label">${property1.sqft > property2.sqft ? 'Property 1 is larger' : 'Property 2 is larger'}</div>
+                </div>
+            `;
+            
+            // Render comparison chart
+            renderComparisonChart(property1, property2);
+        }
+        
+        // Function to estimate rent
+        function estimateRent() {
+            const property = document.getElementById('rentProperty').value;
+            
+            if (!property) {
+                alert('Please enter a property');
+                return;
+            }
+            
+            // In a real app, you would fetch data from an API
+            // Here we'll use our sample data
+            const propertyData = sampleProperties['123 Main St'];
+            
+            document.getElementById('estimatedRent').textContent = `$${propertyData.rentEstimate}`;
+            document.getElementById('rentalYield').textContent = `${((propertyData.rentEstimate * 12) / propertyData.price * 100).toFixed(1)}%`;
+            
+            // Render rent trend chart
+            renderRentTrendChart();
+        }
+        
+        // Function to analyze pros and cons
+        function analyzeProsCons() {
+            const property = document.getElementById('prosConsProperty').value;
+            
+            if (!property) {
+                alert('Please enter a property');
+                return;
+            }
+            
+            // In a real app, you would fetch data from an API
+            // Here we'll use our sample data
+            const propertyData = sampleProperties['123 Main St'];
+            
+            const prosList = document.getElementById('prosList');
+            const consList = document.getElementById('consList');
+            
+            prosList.innerHTML = '';
+            consList.innerHTML = '';
+            
+            propertyData.pros.forEach(pro => {
+                const li = document.createElement('li');
+                li.className = 'pro';
+                li.innerHTML = `<i class="fas fa-check-circle"></i> ${pro}`;
+                prosList.appendChild(li);
+            });
+            
+            propertyData.cons.forEach(con => {
+                const li = document.createElement('li');
+                li.className = 'con';
+                li.innerHTML = `<i class="fas fa-times-circle"></i> ${con}`;
+                consList.appendChild(li);
+            });
+        }
+        
+        // Function to analyze neighborhood
+        function analyzeNeighborhood() {
+            const property = document.getElementById('neighborhoodProperty').value;
+            
+            if (!property) {
+                alert('Please enter a property');
+                return;
+            }
+            
+            // In a real app, you would fetch data from an API
+            // Here we'll use our sample data
+            const propertyData = sampleProperties['123 Main St'];
+            
+            document.getElementById('neighborhoodSummary').textContent = propertyData.neighborhood.summary;
+            
+            const factorsContainer = document.getElementById('neighborhoodFactors');
+            factorsContainer.innerHTML = `
+                <div class="factor">
+                    <div class="factor-score ${getScoreClass(propertyData.neighborhood.safety)}">${propertyData.neighborhood.safety}</div>
+                    <div class="factor-label">Safety</div>
+                </div>
+                <div class="factor">
+                    <div class="factor-score ${getScoreClass(propertyData.neighborhood.schools)}">${propertyData.neighborhood.schools}</div>
+                    <div class="factor-label">Schools</div>
+                </div>
+                <div class="factor">
+                    <div class="factor-score ${getScoreClass(propertyData.neighborhood.walkability)}">${propertyData.neighborhood.walkability}</div>
+                    <div class="factor-label">Walkability</div>
+                </div>
+                <div class="factor">
+                    <div class="factor-score ${getScoreClass(propertyData.neighborhood.amenities)}">${propertyData.neighborhood.amenities}</div>
+                    <div class="factor-label">Amenities</div>
+                </div>
+            `;
+            
+            const amenitiesList = document.getElementById('amenitiesList');
+            amenitiesList.innerHTML = '<ul style="list-style-type: none;">' + 
+                propertyData.amenities.map(amenity => `<li style="margin-bottom: 0.5rem;"><i class="fas fa-map-marker-alt" style="margin-right: 0.5rem; color: var(--primary);"></i> ${amenity}</li>`).join('') + 
+                '</ul>';
+            
+            // Render crime chart
+            renderCrimeChart();
+        }
+        
+        // Helper function to get score class
+        function getScoreClass(score) {
+            if (score >= 8) return 'score-high';
+            if (score >= 5) return 'score-medium';
+            return 'score-low';
+        }
+        
+        // Function to search property
+        function searchProperty() {
+            const property = document.getElementById('propertySearch').value;
+            
+            if (!property) {
+                alert('Please enter a property');
+                return;
+            }
+            
+            // In a real app, this would redirect to a search results page
+            // For this demo, we'll just show an alert
+            alert(`Searching for: ${property}\n\nIn a real implementation, this would show search results.`);
+        }
+        
+        // Chart rendering functions
+        function renderComparisonChart(prop1, prop2) {
+            const ctx = document.getElementById('comparisonChart').getContext('2d');
+            
+            if (window.comparisonChart) {
+                window.comparisonChart.destroy();
+            }
+            
+            window.comparisonChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Price', 'Bedrooms', 'Bathrooms', 'Square Feet', 'Year Built', 'Rent Estimate'],
+                    datasets: [
+                        {
+                            label: 'Property 1',
+                            data: [prop1.price, prop1.beds, prop1.baths, prop1.sqft, prop1.yearBuilt, prop1.rentEstimate],
+                            backgroundColor: 'rgba(79, 70, 229, 0.7)',
+                            borderColor: 'rgba(79, 70, 229, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Property 2',
+                            data: [prop2.price, prop2.beds, prop2.baths, prop2.sqft, prop2.yearBuilt, prop2.rentEstimate],
+                            backgroundColor: 'rgba(16, 185, 129, 0.7)',
+                            borderColor: 'rgba(16, 185, 129, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        if (context.dataIndex === 0 || context.dataIndex === 3) {
+                                            label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
+                                        } else if (context.dataIndex === 5) {
+                                            label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y) + '/mo';
+                                        } else {
+                                            label += context.parsed.y;
+                                        }
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function renderRentTrendChart() {
+            const ctx = document.getElementById('rentTrendChart').getContext('2d');
+            
+            if (window.rentTrendChart) {
+                window.rentTrendChart.destroy();
+            }
+            
+            window.rentTrendChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Average Rent ($)',
+                        data: [2100, 2150, 2200, 2250, 2300, 2350, 2300, 2250, 2200, 2150, 2200, 2250],
+                        fill: false,
+                        backgroundColor: 'rgba(79, 70, 229, 1)',
+                        borderColor: 'rgba(79, 70, 229, 0.7)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Average Rent: $' + context.parsed.y;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function renderCrimeChart() {
+            const ctx = document.getElementById('crimeChart').getContext('2d');
+            
+            if (window.crimeChart) {
+                window.crimeChart.destroy();
+            }
+            
+            window.crimeChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Theft', 'Burglary', 'Assault', 'Vandalism', 'Drugs', 'Other'],
+                    datasets: [{
+                        label: 'Crime Incidents (per 1000 people)',
+                        data: [12, 8, 5, 7, 4, 6],
+                        backgroundColor: 'rgba(79, 70, 229, 0.2)',
+                        borderColor: 'rgba(79, 70, 229, 1)',
+                        pointBackgroundColor: 'rgba(79, 70, 229, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(79, 70, 229, 1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                display: true
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 15
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Initialize with sample data for demo purposes
+        document.getElementById('property1').value = '123 Main St';
+        document.getElementById('property2').value = '456 Oak Ave';
+        document.getElementById('rentProperty').value = '123 Main St';
+        document.getElementById('prosConsProperty').value = '123 Main St';
+        document.getElementById('neighborhoodProperty').value = '123 Main St';
+        
+        // Run initial comparisons for demo
+        compareProperties();
+        estimateRent();
+        analyzeProsCons();
+        analyzeNeighborhood();
+    </script>
+</body>
+</html>
