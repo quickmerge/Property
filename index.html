@@ -3,83 +3,193 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GlobalPropCompare | Advanced Property Comparison</title>
+    <title>GlobalPropAnalyzer | Worldwide Property Analysis</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Base Styles */
+        /* CSS Variables */
         :root {
             --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --primary-dark: #4338ca;
             --secondary: #10b981;
+            --secondary-light: #34d399;
+            --secondary-dark: #059669;
             --dark: #1e293b;
+            --dark-light: #334155;
             --light: #f8fafc;
+            --light-dark: #e2e8f0;
             --gray: #94a3b8;
+            --gray-light: #cbd5e1;
+            --gray-dark: #64748b;
             --danger: #ef4444;
+            --danger-light: #f87171;
+            --danger-dark: #dc2626;
             --warning: #f59e0b;
+            --warning-light: #fbbf24;
+            --warning-dark: #d97706;
             --success: #10b981;
+            --success-light: #34d399;
+            --success-dark: #059669;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --box-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
-        
+
+        /* Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f1f5f9;
             color: var(--dark);
+            line-height: 1.6;
             overflow-x: hidden;
         }
-        
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        h1 { font-size: 3rem; }
+        h2 { font-size: 2.5rem; }
+        h3 { font-size: 1.75rem; }
+        h4 { font-size: 1.5rem; }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--gray-dark);
+        }
+
+        /* Layout Components */
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title p {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        /* Form Elements */
+        input, select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--light-dark);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+
         /* Header Styles */
         header {
             background-color: white;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--box-shadow);
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
         }
-        
+
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1.5rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
         }
-        
+
         .logo {
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--primary);
-            text-decoration: none;
             display: flex;
             align-items: center;
         }
-        
+
         .logo span {
             color: var(--secondary);
         }
-        
+
         .nav-links {
             display: flex;
             gap: 2rem;
         }
-        
+
         .nav-links a {
-            text-decoration: none;
-            color: var(--dark);
-            font-weight: 500;
-            transition: color 0.3s;
             position: relative;
+            font-weight: 500;
+            transition: var(--transition);
         }
-        
+
         .nav-links a:hover {
             color: var(--primary);
         }
-        
+
         .nav-links a::after {
             content: '';
             position: absolute;
@@ -88,13 +198,14 @@
             background: var(--primary);
             bottom: -4px;
             left: 0;
-            transition: width 0.3s;
+            transition: var(--transition);
         }
-        
+
         .nav-links a:hover::after {
             width: 100%;
         }
-        
+
+        /* Mobile Menu */
         .hamburger {
             display: none;
             cursor: pointer;
@@ -103,67 +214,51 @@
             flex-direction: column;
             justify-content: space-between;
         }
-        
+
         .hamburger span {
             display: block;
             width: 100%;
             height: 3px;
             background-color: var(--dark);
-            transition: all 0.3s;
+            transition: var(--transition);
         }
-        
+
         .mobile-menu {
             position: fixed;
             top: 80px;
             left: 0;
             width: 100%;
             background-color: white;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--box-shadow-lg);
             padding: 1rem 2rem;
             transform: translateY(-150%);
-            transition: transform 0.3s;
+            transition: var(--transition);
             z-index: 999;
         }
-        
+
         .mobile-menu.active {
             transform: translateY(0);
         }
-        
+
         .mobile-menu a {
             display: block;
             padding: 1rem 0;
-            text-decoration: none;
-            color: var(--dark);
-            font-weight: 500;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid var(--light-dark);
         }
-        
+
         .mobile-menu a:hover {
             color: var(--primary);
         }
-        
+
         /* Hero Section */
         .hero {
-            padding: 8rem 2rem 4rem;
+            padding: 8rem 0 4rem;
             text-align: center;
             background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
             position: relative;
             overflow: hidden;
         }
-        
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--gray);
-            max-width: 700px;
-            margin: 0 auto 2rem;
-        }
-        
+
         .search-box {
             display: flex;
             max-width: 800px;
@@ -171,34 +266,28 @@
             background: white;
             border-radius: 50px;
             padding: 8px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--box-shadow-lg);
         }
-        
+
         .search-box input {
             flex: 1;
             border: none;
-            padding: 1rem 1.5rem;
             border-radius: 50px 0 0 50px;
-            font-size: 1rem;
-            outline: none;
         }
-        
-        .search-box button {
-            background: var(--primary);
-            color: white;
+
+        .search-box select {
+            flex: 0.5;
             border: none;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
+            border-radius: 0;
+            border-left: 1px solid var(--light-dark);
+            border-right: 1px solid var(--light-dark);
         }
-        
-        .search-box button:hover {
-            background: #4338ca;
+
+        .search-box button {
+            border-radius: 0 50px 50px 0;
         }
-        
-        /* Floating Animation Elements */
+
+        /* Floating Elements */
         .floating-element {
             position: absolute;
             border-radius: 50%;
@@ -206,7 +295,7 @@
             animation: float 6s ease-in-out infinite;
             z-index: 0;
         }
-        
+
         .element-1 {
             width: 150px;
             height: 150px;
@@ -214,7 +303,7 @@
             left: 5%;
             animation-delay: 0s;
         }
-        
+
         .element-2 {
             width: 100px;
             height: 100px;
@@ -222,7 +311,7 @@
             right: 10%;
             animation-delay: 1s;
         }
-        
+
         .element-3 {
             width: 80px;
             height: 80px;
@@ -230,7 +319,7 @@
             right: 15%;
             animation-delay: 2s;
         }
-        
+
         @keyframes float {
             0%, 100% {
                 transform: translateY(0) rotate(0deg);
@@ -239,53 +328,30 @@
                 transform: translateY(-20px) rotate(5deg);
             }
         }
-        
+
         /* Features Section */
-        .features {
-            padding: 4rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        
-        .section-title h2 {
-            font-size: 2.5rem;
-            color: var(--dark);
-            margin-bottom: 1rem;
-        }
-        
-        .section-title p {
-            color: var(--gray);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
-        
+
         .feature-card {
             background: white;
             border-radius: 12px;
             padding: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
             position: relative;
             overflow: hidden;
             z-index: 1;
         }
-        
+
         .feature-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--box-shadow-lg);
         }
-        
+
         .feature-card::before {
             content: '';
             position: absolute;
@@ -295,177 +361,150 @@
             height: 5px;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
         }
-        
-        .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-        
-        .feature-card p {
-            color: var(--gray);
-            line-height: 1.6;
-        }
-        
+
         .feature-icon {
             font-size: 2.5rem;
             margin-bottom: 1.5rem;
             color: var(--primary);
         }
-        
-        /* Property Comparison Tools */
-        .comparison-tools {
-            padding: 4rem 2rem;
-            background: white;
-        }
-        
+
+        /* Analysis Tools */
         .tool-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: #f8fafc;
+            background: var(--light);
             border-radius: 12px;
             padding: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--box-shadow);
         }
-        
-        .tool-tabs {
-            display: flex;
-            border-bottom: 1px solid #e2e8f0;
-            margin-bottom: 2rem;
-        }
-        
-        .tool-tab {
-            padding: 0.75rem 1.5rem;
-            cursor: pointer;
-            font-weight: 500;
-            color: var(--gray);
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
-        }
-        
-        .tool-tab.active {
-            color: var(--primary);
-            border-bottom: 3px solid var(--primary);
-        }
-        
-        .tool-content {
-            display: none;
-        }
-        
-        .tool-content.active {
-            display: block;
-        }
-        
+
         .property-input {
             display: flex;
             gap: 1rem;
             margin-bottom: 2rem;
         }
-        
+
         .property-input input {
             flex: 1;
-            padding: 1rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 1rem;
-            outline: none;
         }
-        
-        .property-input button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        
-        .property-input button:hover {
-            background: #4338ca;
-        }
-        
-        .comparison-results {
-            margin-top: 2rem;
-        }
-        
+
+        /* Results Grid */
         .results-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
-        
+
         .result-card {
             background: white;
             border-radius: 12px;
             padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--box-shadow);
         }
-        
-        .result-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-        
+
         .result-value {
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--primary);
             margin-bottom: 0.5rem;
         }
-        
+
         .result-label {
             color: var(--gray);
             font-size: 0.9rem;
         }
-        
+
+        /* Investment Score */
+        .investment-score {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto;
+        }
+
+        /* Negotiation Range */
+        .negotiation-range {
+            height: 10px;
+            background: var(--light-dark);
+            border-radius: 5px;
+            margin-top: 1rem;
+            position: relative;
+        }
+
+        .negotiation-range-fill {
+            position: absolute;
+            height: 100%;
+            border-radius: 5px;
+            background: linear-gradient(90deg, var(--success), var(--warning));
+        }
+
+        .negotiation-marker {
+            position: absolute;
+            top: -5px;
+            width: 2px;
+            height: 20px;
+            background: var(--dark);
+        }
+
+        .negotiation-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+        }
+
+        /* Pros & Cons List */
         .pros-cons-list {
             margin-top: 1rem;
         }
-        
+
         .pros-cons-list li {
             display: flex;
             align-items: center;
             margin-bottom: 0.5rem;
             padding: 0.5rem 0;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid var(--light);
         }
-        
+
         .pros-cons-list li i {
             margin-right: 0.5rem;
         }
-        
+
         .pro {
             color: var(--success);
         }
-        
+
         .con {
             color: var(--danger);
         }
-        
+
+        /* Charts */
         .chart-container {
             height: 300px;
             margin-top: 2rem;
             position: relative;
         }
-        
+
+        /* Neighborhood Factors */
         .neighborhood-factors {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1rem;
             margin-top: 1rem;
         }
-        
+
         .factor {
             background: white;
             padding: 1rem;
-            border-radius: 8px;
+            border-radius: var(--border-radius);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             text-align: center;
         }
-        
+
         .factor-score {
             width: 50px;
             height: 50px;
@@ -477,30 +516,114 @@
             font-weight: 700;
             color: white;
         }
-        
+
         .score-high {
             background: var(--success);
         }
-        
+
         .score-medium {
             background: var(--warning);
         }
-        
+
         .score-low {
             background: var(--danger);
         }
-        
+
         .factor-label {
             font-size: 0.9rem;
             color: var(--gray);
         }
-        
+
+        /* Property Details */
+        .property-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .detail-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--light);
+        }
+
+        .detail-label {
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .detail-value {
+            font-weight: 600;
+        }
+
+        /* Property Gallery */
+        .property-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .property-image {
+            height: 200px;
+            border-radius: var(--border-radius);
+            object-fit: cover;
+            width: 100%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .property-image:hover {
+            transform: scale(1.03);
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--light-dark);
+        }
+
+        .comparison-table th {
+            background-color: var(--light);
+            font-weight: 600;
+        }
+
+        .comparison-table tr:hover {
+            background-color: var(--light);
+        }
+
+        .better {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .worse {
+            color: var(--danger);
+            font-weight: 600;
+        }
+
         /* How It Works Section */
         .how-it-works {
-            padding: 4rem 2rem;
             background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
         }
-        
+
         .steps {
             display: flex;
             flex-wrap: wrap;
@@ -509,7 +632,7 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .step {
             flex: 1;
             min-width: 250px;
@@ -517,15 +640,15 @@
             padding: 2rem;
             background: white;
             border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--box-shadow);
             position: relative;
-            transition: transform 0.3s;
+            transition: var(--transition);
         }
-        
+
         .step:hover {
             transform: scale(1.05);
         }
-        
+
         .step-number {
             width: 50px;
             height: 50px;
@@ -539,39 +662,27 @@
             font-size: 1.5rem;
             margin: 0 auto 1rem;
         }
-        
-        .step h3 {
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-        
-        .step p {
-            color: var(--gray);
-            line-height: 1.6;
-        }
-        
+
         /* Footer */
         footer {
             background: var(--dark);
             color: white;
-            padding: 4rem 2rem 2rem;
+            padding: 4rem 0 2rem;
         }
-        
+
         .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 2rem;
         }
-        
+
         .footer-column h3 {
             font-size: 1.2rem;
             margin-bottom: 1.5rem;
             position: relative;
             display: inline-block;
         }
-        
+
         .footer-column h3::after {
             content: '';
             position: absolute;
@@ -581,34 +692,77 @@
             bottom: -8px;
             left: 0;
         }
-        
-        .footer-column ul {
-            list-style: none;
-        }
-        
+
         .footer-column ul li {
             margin-bottom: 0.8rem;
         }
-        
+
         .footer-column ul li a {
-            color: #cbd5e1;
-            text-decoration: none;
-            transition: color 0.3s;
+            color: var(--gray-light);
+            transition: var(--transition);
         }
-        
+
         .footer-column ul li a:hover {
             color: white;
         }
-        
+
         .copyright {
             text-align: center;
             padding-top: 2rem;
             margin-top: 2rem;
-            border-top: 1px solid #334155;
-            color: #94a3b8;
+            border-top: 1px solid var(--dark-light);
+            color: var(--gray);
         }
-        
-        /* Responsive Styles */
+
+        /* Error Message */
+        .error-message {
+            color: var(--danger);
+            background-color: #fee2e2;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-top: 1rem;
+            display: none;
+        }
+
+        /* Loading Indicator */
+        .loading-indicator {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(79, 70, 229, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Google Maps Autocomplete Dropdown */
+        .pac-container {
+            z-index: 1051 !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Map Container */
+        .map-container {
+            height: 400px;
+            width: 100%;
+            border-radius: var(--border-radius);
+            margin-top: 2rem;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+
+        /* Responsive Design */
         @media (max-width: 992px) {
             .nav-links {
                 display: none;
@@ -626,18 +780,14 @@
                 flex-direction: column;
             }
         }
-        
+
         @media (max-width: 768px) {
             .hero {
-                padding: 7rem 1.5rem 3rem;
+                padding: 7rem 0 3rem;
             }
             
             .hero h1 {
                 font-size: 2rem;
-            }
-            
-            .hero p {
-                font-size: 1rem;
             }
             
             .search-box {
@@ -649,6 +799,14 @@
                 border-radius: 12px 12px 0 0;
             }
             
+            .search-box select {
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+                border-top: 1px solid var(--light-dark);
+                border-bottom: 1px solid var(--light-dark);
+            }
+            
             .search-box button {
                 border-radius: 0 0 12px 12px;
             }
@@ -657,7 +815,7 @@
                 font-size: 2rem;
             }
         }
-        
+
         @media (max-width: 576px) {
             .navbar {
                 padding: 1rem;
@@ -668,20 +826,11 @@
             }
             
             .hero {
-                padding: 6rem 1rem 2rem;
+                padding: 6rem 0 2rem;
             }
             
-            .features, .how-it-works, .comparison-tools {
-                padding: 2rem 1rem;
-            }
-            
-            .tool-tabs {
-                flex-wrap: wrap;
-            }
-            
-            .tool-tab {
-                padding: 0.5rem 1rem;
-                font-size: 0.9rem;
+            .section {
+                padding: 2rem 0;
             }
         }
     </style>
@@ -689,12 +838,12 @@
 <body>
     <!-- Header -->
     <header>
-        <div class="navbar">
-            <a href="#" class="logo">Global<span>Prop</span>Compare</a>
+        <div class="navbar container">
+            <a href="#" class="logo">Global<span>Prop</span>Analyzer</a>
             
             <div class="nav-links">
                 <a href="#home">Home</a>
-                <a href="#tools">Property Tools</a>
+                <a href="#analysis">Property Analysis</a>
                 <a href="#about">About</a>
                 <a href="#contact">Contact</a>
             </div>
@@ -708,7 +857,7 @@
         
         <div class="mobile-menu" id="mobileMenu">
             <a href="#home">Home</a>
-            <a href="#tools">Property Tools</a>
+            <a href="#analysis">Property Analysis</a>
             <a href="#about">About</a>
             <a href="#contact">Contact</a>
         </div>
@@ -720,210 +869,327 @@
         <div class="floating-element element-2"></div>
         <div class="floating-element element-3"></div>
         
-        <h1>Compare Properties Worldwide</h1>
-        <p>Get comprehensive insights on any property including estimated rent, neighborhood analysis, pros & cons, and investment potential.</p>
-        
-        <div class="search-box">
-            <input type="text" id="propertySearch" placeholder="Enter property address or URL...">
-            <button id="searchButton">Analyze Property</button>
+        <div class="container">
+            <h1>Global Property Analysis Platform</h1>
+            <p>Get comprehensive worldwide property insights including valuation, rental potential, neighborhood safety, and investment scoring.</p>
+            
+            <div class="search-box">
+                <input type="text" id="propertyAddress" placeholder="Enter property address">
+                <select id="propertyCountry">
+                    <option value="">Select Country</option>
+                    <option value="Argentina">Argentina</option>
+                    <option value="Australia">Australia</option>
+                    <option value="Brazil">Brazil</option>
+                    <option value="Canada">Canada</option>
+                    <option value="China">China</option>
+                    <option value="France">France</option>
+                    <option value="Germany">Germany</option>
+                    <option value="India">India</option>
+                    <option value="Indonesia">Indonesia</option>
+                    <option value="Italy">Italy</option>
+                    <option value="Japan">Japan</option>
+                    <option value="Mexico">Mexico</option>
+                    <option value="Russia">Russia</option>
+                    <option value="Saudi Arabia">Saudi Arabia</option>
+                    <option value="South Africa">South Africa</option>
+                    <option value="South Korea">South Korea</option>
+                    <option value="Turkey">Turkey</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="United States">United States</option>
+                    <option value="European Union">European Union</option>
+                </select>
+                <button id="searchButton" class="btn btn-primary">Analyze Property</button>
+            </div>
+            <div class="error-message" id="searchError"></div>
         </div>
     </section>
     
-    <!-- Property Comparison Tools -->
-    <section class="comparison-tools" id="tools">
-        <div class="section-title">
-            <h2>Property Analysis Tools</h2>
-            <p>Powerful tools to help you make informed real estate decisions</p>
-        </div>
-        
-        <div class="tool-container">
-            <div class="tool-tabs">
-                <div class="tool-tab active" data-tab="comparison">Comparison</div>
-                <div class="tool-tab" data-tab="rent-estimator">Rent Estimator</div>
-                <div class="tool-tab" data-tab="pros-cons">Pros & Cons</div>
-                <div class="tool-tab" data-tab="neighborhood">Neighborhood</div>
+    <!-- Property Analysis Section -->
+    <section class="section comparison-tools" id="analysis">
+        <div class="container">
+            <div class="section-title">
+                <h2>Global Property Analysis</h2>
+                <p>Detailed insights for properties anywhere in the world</p>
             </div>
             
-            <!-- Property Comparison Tool -->
-            <div class="tool-content active" id="comparison-tool">
-                <div class="property-input">
-                    <input type="text" id="property1" placeholder="Enter first property URL or address">
-                    <input type="text" id="property2" placeholder="Enter second property URL or address">
-                    <button id="compareButton">Compare</button>
-                </div>
-                
-                <div class="comparison-results" id="comparisonResults">
-                    <div class="results-grid">
-                        <!-- Results will be populated here by JavaScript -->
+            <div class="tool-container">
+                <div id="property-analysis-tool">
+                    <div class="property-input">
+                        <input type="text" id="analysisAddress" placeholder="Enter property address">
+                        <select id="analysisCountry">
+                            <option value="">Select Country</option>
+                            <option value="Argentina">Argentina</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Brazil">Brazil</option>
+                            <option value="Canada">Canada</option>
+                            <option value="China">China</option>
+                            <option value="France">France</option>
+                            <option value="Germany">Germany</option>
+                            <option value="India">India</option>
+                            <option value="Indonesia">Indonesia</option>
+                            <option value="Italy">Italy</option>
+                            <option value="Japan">Japan</option>
+                            <option value="Mexico">Mexico</option>
+                            <option value="Russia">Russia</option>
+                            <option value="Saudi Arabia">Saudi Arabia</option>
+                            <option value="South Africa">South Africa</option>
+                            <option value="South Korea">South Korea</option>
+                            <option value="Turkey">Turkey</option>
+                            <option value="United Kingdom">United Kingdom</option>
+                            <option value="United States">United States</option>
+                            <option value="European Union">European Union</option>
+                        </select>
+                        <button id="analyzePropertyButton" class="btn btn-primary">Fetch & Analyze</button>
+                    </div>
+                    <div class="error-message" id="analysisError"></div>
+                    
+                    <div id="loadingIndicator" class="loading-indicator">
+                        <div class="spinner"></div>
+                        <p>Analyzing property data...</p>
                     </div>
                     
-                    <div class="chart-container">
-                        <canvas id="comparisonChart"></canvas>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Rent Estimator Tool -->
-            <div class="tool-content" id="rent-estimator-tool">
-                <div class="property-input">
-                    <input type="text" id="rentProperty" placeholder="Enter property URL or address">
-                    <button id="estimateButton">Estimate Rent</button>
-                </div>
-                
-                <div class="comparison-results" id="rentResults">
-                    <div class="results-grid">
-                        <div class="result-card">
-                            <h3>Estimated Monthly Rent</h3>
-                            <div class="result-value" id="estimatedRent">$0</div>
-                            <div class="result-label">Based on comparable properties in this area</div>
-                        </div>
-                        
-                        <div class="result-card">
-                            <h3>Rental Yield</h3>
-                            <div class="result-value" id="rentalYield">0%</div>
-                            <div class="result-label">Annual return on investment</div>
-                        </div>
-                    </div>
-                    
-                    <div class="chart-container">
-                        <canvas id="rentTrendChart"></canvas>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Pros & Cons Tool -->
-            <div class="tool-content" id="pros-cons-tool">
-                <div class="property-input">
-                    <input type="text" id="prosConsProperty" placeholder="Enter property URL or address">
-                    <button id="analyzeButton">Analyze</button>
-                </div>
-                
-                <div class="comparison-results" id="prosConsResults">
-                    <div class="results-grid">
-                        <div class="result-card">
-                            <h3>Property Advantages</h3>
-                            <ul class="pros-cons-list" id="prosList">
-                                <!-- Pros will be populated here by JavaScript -->
-                            </ul>
-                        </div>
-                        
-                        <div class="result-card">
-                            <h3>Property Disadvantages</h3>
-                            <ul class="pros-cons-list" id="consList">
-                                <!-- Cons will be populated here by JavaScript -->
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Neighborhood Analysis Tool -->
-            <div class="tool-content" id="neighborhood-tool">
-                <div class="property-input">
-                    <input type="text" id="neighborhoodProperty" placeholder="Enter property URL or address">
-                    <button id="neighborhoodButton">Analyze</button>
-                </div>
-                
-                <div class="comparison-results" id="neighborhoodResults">
-                    <div class="results-grid">
-                        <div class="result-card">
-                            <h3>Neighborhood Summary</h3>
-                            <p id="neighborhoodSummary">Enter a property to see neighborhood insights.</p>
+                    <div id="propertyAnalysisResults" style="display: none;">
+                        <!-- Property Header -->
+                        <div class="results-grid">
+                            <div class="result-card">
+                                <h3>Estimated Value</h3>
+                                <div class="result-value" id="propertyValue">Loading...</div>
+                                <div class="result-label" id="propertyCurrency">Current market valuation</div>
+                            </div>
                             
-                            <h4 style="margin-top: 1rem;">Key Factors</h4>
-                            <div class="neighborhood-factors" id="neighborhoodFactors">
-                                <!-- Factors will be populated here by JavaScript -->
+                            <div class="result-card">
+                                <h3>Investment Score</h3>
+                                <div class="investment-score" id="investmentScore">0</div>
+                                <div class="result-label">Our expert rating (0-100)</div>
+                            </div>
+                            
+                            <div class="result-card">
+                                <h3>Negotiation Range</h3>
+                                <div class="result-value" id="negotiationRange">Loading...</div>
+                                <div class="negotiation-range">
+                                    <div class="negotiation-range-fill" id="negotiationRangeFill"></div>
+                                    <div class="negotiation-marker" id="negotiationMarker"></div>
+                                </div>
+                                <div class="negotiation-labels">
+                                    <span id="minPrice">Min</span>
+                                    <span id="maxPrice">Max</span>
+                                </div>
                             </div>
                         </div>
                         
-                        <div class="result-card">
-                            <h3>Nearby Amenities</h3>
-                            <div id="amenitiesList">
-                                <!-- Amenities will be populated here by JavaScript -->
+                        <!-- Map Container -->
+                        <h3 style="margin-top: 2rem;">Property Location</h3>
+                        <div class="map-container" id="propertyMap"></div>
+                        
+                        <!-- Property Gallery -->
+                        <h3 style="margin-top: 2rem;">Property Images</h3>
+                        <div class="property-gallery" id="propertyGallery">
+                            <!-- Images will be loaded here -->
+                        </div>
+                        
+                        <!-- Property Details -->
+                        <div class="property-details" id="propertyDetails">
+                            <!-- Details will be loaded here -->
+                        </div>
+                        
+                        <!-- Value Trend Chart -->
+                        <div class="chart-container">
+                            <canvas id="valueTrendChart"></canvas>
+                        </div>
+                        
+                        <!-- Pros & Cons -->
+                        <div class="results-grid" style="margin-top: 2rem;">
+                            <div class="result-card">
+                                <h3>Property Advantages</h3>
+                                <ul class="pros-cons-list" id="propertyPros">
+                                    <!-- Pros will be loaded here -->
+                                </ul>
+                            </div>
+                            
+                            <div class="result-card">
+                                <h3>Property Considerations</h3>
+                                <ul class="pros-cons-list" id="propertyCons">
+                                    <!-- Cons will be loaded here -->
+                                </ul>
                             </div>
                         </div>
+                        
+                        <!-- Neighborhood Analysis -->
+                        <h3 style="margin-top: 2rem;">Neighborhood Analysis</h3>
+                        <div class="neighborhood-factors" id="neighborhoodFactors">
+                            <!-- Factors will be loaded here -->
+                        </div>
+                        
+                        <div class="chart-container" style="margin-top: 2rem;">
+                            <canvas id="crimeChart"></canvas>
+                        </div>
+                        
+                        <!-- Comparable Properties -->
+                        <h3 style="margin-top: 2rem;">Comparable Properties in Area</h3>
+                        <div class="chart-container">
+                            <canvas id="comparisonChart"></canvas>
+                        </div>
+                        
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Property</th>
+                                    <th>Price</th>
+                                    <th>Size</th>
+                                    <th>Price/Sqft</th>
+                                    <th>Rent Potential</th>
+                                    <th>Score</th>
+                                </tr>
+                            </thead>
+                            <tbody id="comparableProperties">
+                                <!-- Comparable properties will be loaded here -->
+                            </tbody>
+                        </table>
                     </div>
-                    
-                    <div class="chart-container">
-                        <canvas id="crimeChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="section features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Key Features</h2>
+                <p>Everything you need to make informed property decisions worldwide</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
                     </div>
+                    <h3>Global Coverage</h3>
+                    <p>Analyze properties from any country with our comprehensive property analysis tools covering all G20 nations.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Market Trends</h3>
+                    <p>Get historical price data and future projections to understand the property's investment potential.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Safety Analysis</h3>
+                    <p>Detailed neighborhood crime statistics and safety ratings to help you evaluate the area.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>Rental Estimates</h3>
+                    <p>Accurate rental income projections based on local market data and property characteristics.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3>Comparable Analysis</h3>
+                    <p>See how this property compares to similar listings in the area with side-by-side metrics.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                    <h3>Negotiation Tools</h3>
+                    <p>Get recommended price ranges and negotiation strategies based on market conditions.</p>
                 </div>
             </div>
         </div>
     </section>
     
     <!-- How It Works Section -->
-    <section class="how-it-works" id="about">
-        <div class="section-title">
-            <h2>How It Works</h2>
-            <p>Get property insights in just 3 simple steps</p>
-        </div>
-        
-        <div class="steps">
-            <div class="step">
-                <div class="step-number">1</div>
-                <h3>Find Property</h3>
-                <p>Search for a property by address or paste a link from any real estate website worldwide.</p>
+    <section class="section how-it-works" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>How It Works</h2>
+                <p>Get global property insights in just 3 simple steps</p>
             </div>
             
-            <div class="step">
-                <div class="step-number">2</div>
-                <h3>Generate Report</h3>
-                <p>Our system analyzes the property and compiles a comprehensive report in seconds.</p>
-            </div>
-            
-            <div class="step">
-                <div class="step-number">3</div>
-                <h3>Compare & Decide</h3>
-                <p>Compare multiple properties side-by-side and make informed decisions with confidence.</p>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Enter Property Details</h3>
+                    <p>Provide the property address and select the country from our G20 supported list.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Run Analysis</h3>
+                    <p>Our system will analyze the property using comprehensive market data and algorithms.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Get Full Report</h3>
+                    <p>Receive a detailed analysis including valuation, safety, and investment potential.</p>
+                </div>
             </div>
         </div>
     </section>
     
     <!-- Footer -->
     <footer id="contact">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>GlobalPropCompare</h3>
-                <p>Making property comparison simple and insightful for buyers, renters, and investors worldwide.</p>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>GlobalPropAnalyzer</h3>
+                    <p>Making global property analysis simple and insightful for investors worldwide.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#analysis">Property Analysis</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><a href="#analysis">Global Property Analysis</a></li>
+                        <li><a href="#analysis">Investment Scoring</a></li>
+                        <li><a href="#analysis">Neighborhood Safety</a></li>
+                        <li><a href="#analysis">Price Negotiation Tools</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><a href="mailto:info@globalpropanalyzer.com">info@globalpropanalyzer.com</a></li>
+                        <li><a href="tel:+1234567890">+1 (234) 567-890</a></li>
+                    </ul>
+                </div>
             </div>
             
-            <div class="footer-column">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#tools">Property Tools</a></li>
-                    <li><a href="#about">About Us</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
+            <div class="copyright">
+                <p>&copy; 2023 GlobalPropAnalyzer. All rights reserved.</p>
             </div>
-            
-            <div class="footer-column">
-                <h3>Features</h3>
-                <ul>
-                    <li><a href="#tools">Property Comparison</a></li>
-                    <li><a href="#tools">Rent Estimates</a></li>
-                    <li><a href="#tools">Neighborhood Data</a></li>
-                    <li><a href="#tools">Investment Analysis</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-column">
-                <h3>Contact</h3>
-                <ul>
-                    <li><a href="mailto:info@globalpropcompare.com">info@globalpropcompare.com</a></li>
-                    <li><a href="tel:+1234567890">+1 (234) 567-890</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="copyright">
-            <p>&copy; 2023 GlobalPropCompare. All rights reserved.</p>
         </div>
     </footer>
     
     <!-- Chart.js Library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzbQ_53CI7Yot2aJq8yQwBljQvJ2vX5lY&libraries=places"></script>
     
     <script>
         // Mobile Menu Toggle
@@ -986,240 +1252,1241 @@
         window.addEventListener('scroll', animateOnScroll);
         animateOnScroll(); // Run once on page load
         
-        // Tab Switching Functionality
-        const tabs = document.querySelectorAll('.tool-tab');
-        const tabContents = document.querySelectorAll('.tool-content');
-        
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Remove active class from all tabs and contents
-                tabs.forEach(t => t.classList.remove('active'));
-                tabContents.forEach(c => c.classList.remove('active'));
+        // Initialize Google Maps Autocomplete
+        function initAutocomplete() {
+            const addressInputs = [
+                document.getElementById('propertyAddress'),
+                document.getElementById('analysisAddress')
+            ];
+            
+            addressInputs.forEach(input => {
+                const autocomplete = new google.maps.places.Autocomplete(input, {
+                    types: ['address'],
+                    componentRestrictions: { country: [] } // No country restriction initially
+                });
                 
-                // Add active class to clicked tab and corresponding content
-                tab.classList.add('active');
-                const tabId = tab.getAttribute('data-tab');
-                document.getElementById(`${tabId}-tool`).classList.add('active');
+                // Update country restriction when country select changes
+                const countrySelect = input.id === 'propertyAddress' 
+                    ? document.getElementById('propertyCountry')
+                    : document.getElementById('analysisCountry');
+                
+                countrySelect.addEventListener('change', () => {
+                    const country = countrySelect.value;
+                    if (country) {
+                        autocomplete.setComponentRestrictions({ country: getCountryCode(country) });
+                    } else {
+                        autocomplete.setComponentRestrictions({ country: [] });
+                    }
+                });
+                
+                // When a place is selected, update the country select if possible
+                autocomplete.addListener('place_changed', () => {
+                    const place = autocomplete.getPlace();
+                    if (place.address_components) {
+                        const countryComponent = place.address_components.find(component => 
+                            component.types.includes('country')
+                        );
+                        
+                        if (countryComponent) {
+                            const countryName = getCountryName(countryComponent.short_name);
+                            if (countryName) {
+                                countrySelect.value = countryName;
+                            }
+                        }
+                    }
+                });
             });
-        });
+        }
         
-        // Property Comparison Functionality
-        document.getElementById('compareButton').addEventListener('click', compareProperties);
-        document.getElementById('estimateButton').addEventListener('click', estimateRent);
-        document.getElementById('analyzeButton').addEventListener('click', analyzeProsCons);
-        document.getElementById('neighborhoodButton').addEventListener('click', analyzeNeighborhood);
+        // Country code to name mapping
+        function getCountryName(code) {
+            const countryMap = {
+                'AR': 'Argentina',
+                'AU': 'Australia',
+                'BR': 'Brazil',
+                'CA': 'Canada',
+                'CN': 'China',
+                'FR': 'France',
+                'DE': 'Germany',
+                'IN': 'India',
+                'ID': 'Indonesia',
+                'IT': 'Italy',
+                'JP': 'Japan',
+                'MX': 'Mexico',
+                'RU': 'Russia',
+                'SA': 'Saudi Arabia',
+                'ZA': 'South Africa',
+                'KR': 'South Korea',
+                'TR': 'Turkey',
+                'GB': 'United Kingdom',
+                'US': 'United States'
+            };
+            return countryMap[code] || null;
+        }
+        
+        // Country name to code mapping
+        function getCountryCode(name) {
+            const countryMap = {
+                'Argentina': 'AR',
+                'Australia': 'AU',
+                'Brazil': 'BR',
+                'Canada': 'CA',
+                'China': 'CN',
+                'France': 'FR',
+                'Germany': 'DE',
+                'India': 'IN',
+                'Indonesia': 'ID',
+                'Italy': 'IT',
+                'Japan': 'JP',
+                'Mexico': 'MX',
+                'Russia': 'RU',
+                'Saudi Arabia': 'SA',
+                'South Africa': 'ZA',
+                'South Korea': 'KR',
+                'Turkey': 'TR',
+                'United Kingdom': 'GB',
+                'United States': 'US',
+                'European Union': ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE']
+            };
+            
+            const code = countryMap[name];
+            if (Array.isArray(code)) {
+                return code; // Return array of EU country codes
+            }
+            return code || null;
+        }
+        
+        // Property Analysis Functionality
+        document.getElementById('analyzePropertyButton').addEventListener('click', analyzeProperty);
         document.getElementById('searchButton').addEventListener('click', searchProperty);
         
-        // Sample property data (in a real app, this would come from an API)
-        const sampleProperties = {
-            '123 Main St': {
-                price: 450000,
-                beds: 3,
-                baths: 2,
-                sqft: 1800,
-                yearBuilt: 1995,
-                rentEstimate: 2200,
-                pros: [
-                    'Spacious backyard',
-                    'Recently renovated kitchen',
-                    'Good school district',
-                    'Low property taxes'
-                ],
-                cons: [
-                    'Older HVAC system',
-                    'No garage',
-                    'Busy street'
-                ],
-                neighborhood: {
-                    safety: 8,
-                    schools: 7,
-                    walkability: 6,
-                    amenities: 8,
-                    summary: 'A family-friendly neighborhood with good schools and plenty of parks. The area has seen steady appreciation over the last 5 years.'
-                },
-                amenities: [
-                    'Park - 0.3 miles',
-                    'Supermarket - 0.5 miles',
-                    'Elementary School - 0.4 miles',
-                    'Restaurants - 0.2 miles'
-                ]
-            },
-            '456 Oak Ave': {
-                price: 520000,
-                beds: 4,
-                baths: 3,
-                sqft: 2400,
-                yearBuilt: 2010,
-                rentEstimate: 2800,
-                pros: [
-                    'Modern construction',
-                    'Open floor plan',
-                    'Quiet cul-de-sac location',
-                    'Energy efficient'
-                ],
-                cons: [
-                    'Smaller yard',
-                    'Higher HOA fees',
-                    'Longer commute to downtown'
-                ],
-                neighborhood: {
-                    safety: 9,
-                    schools: 8,
-                    walkability: 4,
-                    amenities: 7,
-                    summary: 'A newer development with modern homes and community amenities. Excellent safety ratings but limited walkability.'
-                },
-                amenities: [
-                    'Community Pool - 0.1 miles',
-                    'Shopping Center - 1.2 miles',
-                    'Middle School - 0.8 miles',
-                    'Highway Access - 2 miles'
-                ]
-            }
+        // Default settings
+        const defaultSettings = {
+            currency: 'USD',
+            currencySymbol: '$',
+            areaUnit: 'sqft',
+            countryName: 'International'
         };
         
-        // Function to compare two properties
-        function compareProperties() {
-            const prop1 = document.getElementById('property1').value;
-            const prop2 = document.getElementById('property2').value;
+        // Function to analyze property from address and country
+        async function analyzeProperty() {
+            const address = document.getElementById('analysisAddress').value.trim();
+            const country = document.getElementById('analysisCountry').value;
+            const errorElement = document.getElementById('analysisError');
+            errorElement.style.display = 'none';
             
-            if (!prop1 || !prop2) {
-                alert('Please enter both properties to compare');
+            if (!address) {
+                showError(errorElement, 'Please enter a property address');
                 return;
             }
             
-            // In a real app, you would fetch data from an API
-            // Here we'll use our sample data
-            const property1 = sampleProperties['123 Main St'];
-            const property2 = sampleProperties['456 Oak Ave'];
+            if (!country) {
+                showError(errorElement, 'Please select a country');
+                return;
+            }
             
-            const resultsGrid = document.querySelector('#comparisonResults .results-grid');
-            resultsGrid.innerHTML = `
-                <div class="result-card">
-                    <h3>Price</h3>
-                    <div class="result-value">$${property1.price.toLocaleString()} vs $${property2.price.toLocaleString()}</div>
-                    <div class="result-label">${property1.price < property2.price ? 'Property 1 is cheaper' : 'Property 2 is cheaper'}</div>
+            try {
+                // Show loading indicator
+                document.getElementById('loadingIndicator').style.display = 'block';
+                document.getElementById('propertyAnalysisResults').style.display = 'none';
+                
+                // Get country-specific settings
+                const countrySettings = getCountrySettings(country);
+                const settings = {...defaultSettings, ...countrySettings};
+                
+                // First get place details from Google Maps
+                const place = await getPlaceDetails(address, country);
+                
+                // Then fetch property data
+                const propertyData = await fetchPropertyData(place, country, settings);
+                
+                // Display the property data
+                displayPropertyAnalysis(propertyData, settings);
+                
+                // Show results
+                document.getElementById('propertyAnalysisResults').style.display = 'block';
+                
+                // Scroll to results
+                document.getElementById('propertyAnalysisResults').scrollIntoView({ behavior: 'smooth' });
+            } catch (error) {
+                console.error('Error analyzing property:', error);
+                showError(errorElement, error.message || 'Error analyzing property. Please try again.');
+            } finally {
+                // Hide loading indicator
+                document.getElementById('loadingIndicator').style.display = 'none';
+            }
+        }
+        
+        // Function to get place details from Google Maps
+        function getPlaceDetails(address, country) {
+            return new Promise((resolve, reject) => {
+                const geocoder = new google.maps.Geocoder();
+                
+                geocoder.geocode({ 
+                    address: address,
+                    componentRestrictions: country ? { country: getCountryCode(country) } : {}
+                }, (results, status) => {
+                    if (status === 'OK' && results[0]) {
+                        const place = results[0];
+                        const components = place.address_components;
+                        
+                        // Extract relevant place details
+                        const streetNumber = components.find(c => c.types.includes('street_number'))?.long_name || '';
+                        const route = components.find(c => c.types.includes('route'))?.long_name || '';
+                        const locality = components.find(c => c.types.includes('locality'))?.long_name || '';
+                        const administrativeArea = components.find(c => c.types.includes('administrative_area_level_1'))?.long_name || '';
+                        const postalCode = components.find(c => c.types.includes('postal_code'))?.long_name || '';
+                        const countryCode = components.find(c => c.types.includes('country'))?.short_name || '';
+                        
+                        const formattedAddress = place.formatted_address;
+                        const location = place.geometry.location;
+                        
+                        resolve({
+                            formattedAddress,
+                            location: {
+                                lat: location.lat(),
+                                lng: location.lng()
+                            },
+                            components: {
+                                streetNumber,
+                                route,
+                                locality,
+                                administrativeArea,
+                                postalCode,
+                                countryCode
+                            }
+                        });
+                    } else {
+                        reject(new Error('Could not find the address. Please try a more specific address.'));
+                    }
+                });
+            });
+        }
+        
+        // Function to search property (from hero section)
+        function searchProperty() {
+            const address = document.getElementById('propertyAddress').value.trim();
+            const country = document.getElementById('propertyCountry').value;
+            const errorElement = document.getElementById('searchError');
+            errorElement.style.display = 'none';
+            
+            if (!address) {
+                showError(errorElement, 'Please enter a property address');
+                return;
+            }
+            
+            if (!country) {
+                showError(errorElement, 'Please select a country');
+                return;
+            }
+            
+            // Set the analysis input values
+            document.getElementById('analysisAddress').value = address;
+            document.getElementById('analysisCountry').value = country;
+            
+            // Scroll to analysis section
+            document.getElementById('analysis').scrollIntoView({ behavior: 'smooth' });
+            
+            // Trigger analysis after a small delay
+            setTimeout(() => {
+                document.getElementById('analyzePropertyButton').click();
+            }, 500);
+        }
+        
+        // Function to fetch property data from API
+        async function fetchPropertyData(place, country, settings) {
+            // In a real implementation, this would call your backend API with the place details
+            // For this demo, we'll simulate an API call with realistic data
+            
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // Generate sample data with address and country
+            return generateSamplePropertyData(place, country, settings);
+        }
+        
+        // Get country-specific settings
+        function getCountrySettings(country) {
+            // Country-specific settings
+            const countrySettings = {
+                'Argentina': { currency: 'ARS', currencySymbol: '$', areaUnit: 'm²', countryName: 'Argentina' },
+                'Australia': { currency: 'AUD', currencySymbol: '$', areaUnit: 'm²', countryName: 'Australia' },
+                'Brazil': { currency: 'BRL', currencySymbol: 'R$', areaUnit: 'm²', countryName: 'Brazil' },
+                'Canada': { currency: 'CAD', currencySymbol: '$', areaUnit: 'sqft', countryName: 'Canada' },
+                'China': { currency: 'CNY', currencySymbol: '¥', areaUnit: 'm²', countryName: 'China' },
+                'France': { currency: 'EUR', currencySymbol: '€', areaUnit: 'm²', countryName: 'France' },
+                'Germany': { currency: 'EUR', currencySymbol: '€', areaUnit: 'm²', countryName: 'Germany' },
+                'India': { currency: 'INR', currencySymbol: '₹', areaUnit: 'm²', countryName: 'India' },
+                'Indonesia': { currency: 'IDR', currencySymbol: 'Rp', areaUnit: 'm²', countryName: 'Indonesia' },
+                'Italy': { currency: 'EUR', currencySymbol: '€', areaUnit: 'm²', countryName: 'Italy' },
+                'Japan': { currency: 'JPY', currencySymbol: '¥', areaUnit: 'm²', countryName: 'Japan' },
+                'Mexico': { currency: 'MXN', currencySymbol: '$', areaUnit: 'm²', countryName: 'Mexico' },
+                'Russia': { currency: 'RUB', currencySymbol: '₽', areaUnit: 'm²', countryName: 'Russia' },
+                'Saudi Arabia': { currency: 'SAR', currencySymbol: '﷼', areaUnit: 'm²', countryName: 'Saudi Arabia' },
+                'South Africa': { currency: 'ZAR', currencySymbol: 'R', areaUnit: 'm²', countryName: 'South Africa' },
+                'South Korea': { currency: 'KRW', currencySymbol: '₩', areaUnit: 'm²', countryName: 'South Korea' },
+                'Turkey': { currency: 'TRY', currencySymbol: '₺', areaUnit: 'm²', countryName: 'Turkey' },
+                'United Kingdom': { currency: 'GBP', currencySymbol: '£', areaUnit: 'sqft', countryName: 'United Kingdom' },
+                'United States': { currency: 'USD', currencySymbol: '$', areaUnit: 'sqft', countryName: 'United States' },
+                'European Union': { currency: 'EUR', currencySymbol: '€', areaUnit: 'm²', countryName: 'European Union' }
+            };
+            
+            return countrySettings[country] || defaultSettings;
+        }
+        
+        // Function to generate sample property data
+        function generateSamplePropertyData(place, country, settings) {
+            // Generate realistic property values
+            const propertyTypes = ['Single Family Home', 'Condo', 'Townhouse', 'Apartment', 'Villa', 'Farmhouse'];
+            const propertyStyles = ['Modern', 'Traditional', 'Contemporary', 'Rustic', 'Mediterranean', 'Colonial'];
+            const propertyConditions = ['Excellent', 'Good', 'Fair', 'Needs Work', 'Recently Renovated'];
+            
+            const propertyType = propertyTypes[Math.floor(Math.random() * propertyTypes.length)];
+            const propertyStyle = propertyStyles[Math.floor(Math.random() * propertyStyles.length)];
+            const propertyCondition = propertyConditions[Math.floor(Math.random() * propertyConditions.length)];
+            
+            // Base property data with more realistic values
+            const baseData = {
+                address: place.formattedAddress || generateRealisticAddress(country),
+                country: country || "United States",
+                location: place.location,
+                price: generateRealisticPrice(propertyType, country),
+                beds: generateRealisticBedCount(propertyType),
+                baths: generateRealisticBathCount(),
+                sqft: generateRealisticSqft(propertyType),
+                yearBuilt: generateRealisticYearBuilt(),
+                propertyType: propertyType,
+                propertyStyle: propertyStyle,
+                propertyCondition: propertyCondition,
+                lotSize: generateRealisticLotSize(propertyType),
+                description: generateRealisticDescription(propertyType, propertyStyle, propertyCondition, country),
+                images: generatePropertyImages(propertyType, propertyStyle),
+                pros: generateRealisticPros(propertyType, propertyCondition),
+                cons: generateRealisticCons(propertyType, propertyCondition),
+                neighborhood: generateRealisticNeighborhoodData(country),
+                priceHistory: generateRealisticPriceHistory(settings),
+                comparableProperties: generateRealisticComparableProperties(settings, propertyType),
+                sourceUrl: ""
+            };
+            
+            // Add settings
+            baseData.currency = settings.currency;
+            baseData.currencySymbol = settings.currencySymbol;
+            baseData.areaUnit = settings.areaUnit;
+            baseData.countryName = settings.countryName;
+            
+            // Calculate derived values
+            baseData.pricePerUnit = Math.floor(baseData.price / baseData.sqft);
+            baseData.rentEstimate = calculateRentEstimate(baseData.price, propertyType, country);
+            baseData.investmentScore = calculateRealisticInvestmentScore(baseData);
+            baseData.negotiationRange = calculateRealisticNegotiationRange(baseData.price, propertyType);
+            
+            // Crime data
+            baseData.crimeData = generateRealisticCrimeData();
+            
+            return baseData;
+        }
+        
+        // Helper functions to generate realistic data
+        function generateRealisticAddress(country) {
+            const streets = ['Main', 'Oak', 'Pine', 'Maple', 'Cedar', 'Elm', 'Birch', 'Willow', 'Park', 'Lake'];
+            const suffixes = ['St', 'Ave', 'Rd', 'Blvd', 'Dr', 'Ln', 'Way', 'Cir'];
+            const cities = {
+                'Argentina': ['Buenos Aires', 'Córdoba', 'Rosario', 'Mendoza'],
+                'Australia': ['Sydney', 'Melbourne', 'Brisbane', 'Perth'],
+                'Brazil': ['São Paulo', 'Rio de Janeiro', 'Brasília', 'Salvador'],
+                'Canada': ['Toronto', 'Montreal', 'Vancouver', 'Calgary'],
+                'China': ['Beijing', 'Shanghai', 'Guangzhou', 'Shenzhen'],
+                'France': ['Paris', 'Marseille', 'Lyon', 'Toulouse'],
+                'Germany': ['Berlin', 'Hamburg', 'Munich', 'Cologne'],
+                'India': ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad'],
+                'Indonesia': ['Jakarta', 'Surabaya', 'Bandung', 'Medan'],
+                'Italy': ['Rome', 'Milan', 'Naples', 'Turin'],
+                'Japan': ['Tokyo', 'Yokohama', 'Osaka', 'Nagoya'],
+                'Mexico': ['Mexico City', 'Guadalajara', 'Monterrey', 'Puebla'],
+                'Russia': ['Moscow', 'Saint Petersburg', 'Novosibirsk', 'Yekaterinburg'],
+                'Saudi Arabia': ['Riyadh', 'Jeddah', 'Mecca', 'Medina'],
+                'South Africa': ['Johannesburg', 'Cape Town', 'Durban', 'Pretoria'],
+                'South Korea': ['Seoul', 'Busan', 'Incheon', 'Daegu'],
+                'Turkey': ['Istanbul', 'Ankara', 'Izmir', 'Bursa'],
+                'United Kingdom': ['London', 'Birmingham', 'Manchester', 'Glasgow'],
+                'United States': ['New York', 'Los Angeles', 'Chicago', 'Houston'],
+                'European Union': ['Berlin', 'Paris', 'Madrid', 'Rome']
+            };
+            
+            const countryCities = cities[country] || ['New York', 'Los Angeles', 'Chicago', 'Houston'];
+            const city = countryCities[Math.floor(Math.random() * countryCities.length)];
+            
+            return `${Math.floor(Math.random() * 10000) + 1} ${streets[Math.floor(Math.random() * streets.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}, ${city}`;
+        }
+        
+        function generateRealisticPrice(propertyType, country) {
+            // Base prices by property type in USD
+            const basePrices = {
+                'Single Family Home': 350000,
+                'Condo': 250000,
+                'Townhouse': 300000,
+                'Apartment': 200000,
+                'Villa': 500000,
+                'Farmhouse': 400000
+            };
+            
+            // Country adjustment factors (relative to US prices)
+            const countryFactors = {
+                'Argentina': 0.3,
+                'Australia': 1.2,
+                'Brazil': 0.4,
+                'Canada': 0.9,
+                'China': 0.8,
+                'France': 1.1,
+                'Germany': 1.1,
+                'India': 0.2,
+                'Indonesia': 0.25,
+                'Italy': 0.9,
+                'Japan': 1.3,
+                'Mexico': 0.35,
+                'Russia': 0.4,
+                'Saudi Arabia': 0.9,
+                'South Africa': 0.3,
+                'South Korea': 1.0,
+                'Turkey': 0.4,
+                'United Kingdom': 1.2,
+                'United States': 1.0,
+                'European Union': 1.0
+            };
+            
+            const factor = countryFactors[country] || 1.0;
+            const basePrice = basePrices[propertyType] || 300000;
+            const adjustedPrice = basePrice * factor;
+            
+            // Add variation (20% up or down)
+            const variation = adjustedPrice * 0.2 * (Math.random() * 2 - 1); // -20% to +20%
+            
+            return Math.floor(adjustedPrice + variation);
+        }
+        
+        function generateRealisticBedCount(propertyType) {
+            // Typical bedroom counts by property type
+            const beds = {
+                'Single Family Home': 3,
+                'Condo': 2,
+                'Townhouse': 3,
+                'Apartment': 1,
+                'Villa': 4,
+                'Farmhouse': 3
+            };
+            
+            // Add some variation
+            const baseBeds = beds[propertyType] || 2;
+            const variation = Math.floor(Math.random() * 2); // 0 or 1
+            
+            return Math.max(1, baseBeds + (Math.random() > 0.5 ? variation : -variation));
+        }
+        
+        function generateRealisticBathCount() {
+            // Typically 1-3.5 baths
+            const possibleBaths = [1, 1.5, 2, 2.5, 3, 3.5];
+            return possibleBaths[Math.floor(Math.random() * possibleBaths.length)];
+        }
+        
+        function generateRealisticSqft(propertyType) {
+            // Typical sizes by property type
+            const baseSqft = {
+                'Single Family Home': 2000,
+                'Condo': 1200,
+                'Townhouse': 1800,
+                'Apartment': 800,
+                'Villa': 3000,
+                'Farmhouse': 2500
+            };
+            
+            // Add variation (20% up or down)
+            const base = baseSqft[propertyType] || 1500;
+            const variation = base * 0.2 * (Math.random() * 2 - 1); // -20% to +20%
+            
+            return Math.floor(base + variation);
+        }
+        
+        function generateRealisticYearBuilt() {
+            // Properties built between 1950 and current year
+            const currentYear = new Date().getFullYear();
+            return Math.floor(Math.random() * (currentYear - 1950 + 1)) + 1950;
+        }
+        
+        function generateRealisticLotSize(propertyType) {
+            // Typical lot sizes by property type (in sqft)
+            const baseLotSizes = {
+                'Single Family Home': 8000,
+                'Condo': 0, // Condos typically don't have lots
+                'Townhouse': 2000,
+                'Apartment': 0,
+                'Villa': 10000,
+                'Farmhouse': 20000
+            };
+            
+            const base = baseLotSizes[propertyType] || 5000;
+            if (base === 0) return 0;
+            
+            // Add variation (30% up or down)
+            const variation = base * 0.3 * (Math.random() * 2 - 1); // -30% to +30%
+            return Math.floor(base + variation);
+        }
+        
+        function generateRealisticDescription(type, style, condition, country) {
+            const descriptions = {
+                'Single Family Home': [
+                    `This beautiful ${style.toLowerCase()} ${type.toLowerCase()} in ${country} features ${condition.toLowerCase()} condition throughout. `,
+                    `Spacious ${type.toLowerCase()} in ${country} with ${style.toLowerCase()} style and ${condition.toLowerCase()} condition. `,
+                    `Lovely ${style.toLowerCase()} ${type.toLowerCase()} in ${country} that's been ${condition === 'Recently Renovated' ? 'recently updated' : 'well maintained'}. `
+                ],
+                'Condo': [
+                    `Modern ${style.toLowerCase()} ${type.toLowerCase()} in ${country} with ${condition.toLowerCase()} condition. `,
+                    `Stylish ${type.toLowerCase()} in ${country} with ${style.toLowerCase()} flair and ${condition.toLowerCase()} condition. `,
+                    `Convenient ${type.toLowerCase()} living in ${country} with ${condition.toLowerCase()} condition and ${style.toLowerCase()} design. `
+                ],
+                'Townhouse': [
+                    `Charming ${style.toLowerCase()} ${type.toLowerCase()} in ${country} with ${condition.toLowerCase()} condition. `,
+                    `Well-appointed ${type.toLowerCase()} in ${country} with ${style.toLowerCase()} touches and ${condition.toLowerCase()} condition. `,
+                    `Lovely ${style.toLowerCase()} ${type.toLowerCase()} in ${country} that's ${condition === 'Recently Renovated' ? 'freshly updated' : 'in good shape'}. `
+                ],
+                'Apartment': [
+                    `Cozy ${style.toLowerCase()} ${type.toLowerCase()} in ${country} with ${condition.toLowerCase()} condition. `,
+                    `Efficient ${type.toLowerCase()} space in ${country} with ${style.toLowerCase()} design and ${condition.toLowerCase()} condition. `,
+                    `Comfortable ${type.toLowerCase()} living in ${country} with ${condition.toLowerCase()} condition. `
+                ],
+                'Villa': [
+                    `Stunning ${style.toLowerCase()} ${type.toLowerCase()} in ${country} with ${condition.toLowerCase()} condition. `,
+                    `Luxurious ${type.toLowerCase()} in ${country} featuring ${style.toLowerCase()} design and ${condition.toLowerCase()} condition. `,
+                    `Elegant ${style.toLowerCase()} ${type.toLowerCase()} in ${country} that's been ${condition === 'Recently Renovated' ? 'completely refreshed' : 'well cared for'}. `
+                ],
+                'Farmhouse': [
+                    `Rustic ${style.toLowerCase()} ${type.toLowerCase()} in ${country} with ${condition.toLowerCase()} condition. `,
+                    `Charming ${type.toLowerCase()} in ${country} with ${style.toLowerCase()} character and ${condition.toLowerCase()} condition. `,
+                    `Idyllic ${style.toLowerCase()} ${type.toLowerCase()} in ${country} that's ${condition === 'Recently Renovated' ? 'been lovingly restored' : 'in solid shape'}. `
+                ]
+            };
+            
+            let description = descriptions[type]?.[Math.floor(Math.random() * descriptions[type].length)] || 
+                            `This ${type.toLowerCase()} property in ${country} features ${style.toLowerCase()} style and is in ${condition.toLowerCase()} condition. `;
+            
+            // Add some standard features
+            const features = [
+                'The home features an open floor plan with plenty of natural light. ',
+                'The kitchen boasts modern appliances and ample counter space. ',
+                'You\'ll find spacious bedrooms and well-appointed bathrooms. ',
+                'The property includes a private outdoor space perfect for entertaining. ',
+                'Recent updates include new flooring and fresh paint throughout. ',
+                'The neighborhood offers excellent amenities and convenient location. '
+            ];
+            
+            description += features[Math.floor(Math.random() * features.length)];
+            
+            return description;
+        }
+        
+        function generatePropertyImages(type, style) {
+            const imageCount = Math.floor(Math.random() * 4) + 5; // 5-8 images
+            const images = [];
+            
+            // Image types for different property aspects
+            const imageTypes = [
+                'exterior', 'living-room', 'kitchen', 
+                'bedroom', 'bathroom', 'backyard', 
+                'dining-room', 'garage'
+            ];
+            
+            for (let i = 0; i < imageCount; i++) {
+                const imgType = imageTypes[i % imageTypes.length];
+                images.push(`https://placehold.co/600x400?text=${type}+${imgType}`);
+            }
+            
+            return images;
+        }
+        
+        function generateRealisticPros(type, condition) {
+            const typePros = {
+                'Single Family Home': [
+                    'Spacious backyard',
+                    'Garage parking',
+                    'Quiet neighborhood',
+                    'Good school district',
+                    'Large living areas'
+                ],
+                'Condo': [
+                    'Modern amenities',
+                    'Secure building',
+                    'Low maintenance',
+                    'Great location',
+                    'Fitness center'
+                ],
+                'Townhouse': [
+                    'Low maintenance yard',
+                    'Community amenities',
+                    'Private entrance',
+                    'Attached garage',
+                    'Modern finishes'
+                ],
+                'Apartment': [
+                    'Affordable price',
+                    'Great location',
+                    'Public transit nearby',
+                    'Utilities included',
+                    'On-site laundry'
+                ],
+                'Villa': [
+                    'Luxury finishes',
+                    'Private pool',
+                    'Spacious layout',
+                    'Premium location',
+                    'High-end appliances'
+                ],
+                'Farmhouse': [
+                    'Large property',
+                    'Rustic charm',
+                    'Peaceful setting',
+                    'Outbuildings included',
+                    'Character details'
+                ]
+            };
+            
+            const conditionPros = {
+                'Excellent': [
+                    'Like-new condition',
+                    'No work needed',
+                    'High-end finishes',
+                    'Turnkey ready'
+                ],
+                'Good': [
+                    'Well maintained',
+                    'Move-in ready',
+                    'Recent updates',
+                    'Solid condition'
+                ],
+                'Fair': [
+                    'Good bones',
+                    'Great potential',
+                    'Affordable price',
+                    'Opportunity to add value'
+                ],
+                'Needs Work': [
+                    'Great investment opportunity',
+                    'Significant equity potential',
+                    'Price reflects condition',
+                    'Blank canvas'
+                ],
+                'Recently Renovated': [
+                    'Brand new kitchen',
+                    'Updated bathrooms',
+                    'Fresh paint throughout',
+                    'New flooring'
+                ]
+            };
+            
+            const pros = [
+                ...(typePros[type] || []),
+                ...(conditionPros[condition] || [])
+            ];
+            
+            return shuffleArray(pros).slice(0, 4); // Return 4 random pros
+        }
+        
+        function generateRealisticCons(type, condition) {
+            const typeCons = {
+                'Single Family Home': [
+                    'Older roof',
+                    'Higher maintenance',
+                    'Large yard to maintain',
+                    'Older windows',
+                    'Outdated kitchen'
+                ],
+                'Condo': [
+                    'HOA fees',
+                    'Limited parking',
+                    'No private outdoor space',
+                    'Close neighbors',
+                    'Restrictive rules'
+                ],
+                'Townhouse': [
+                    'Shared walls',
+                    'Limited yard space',
+                    'HOA restrictions',
+                    'Street parking',
+                    'Older building'
+                ],
+                'Apartment': [
+                    'Small space',
+                    'No private laundry',
+                    'Street noise',
+                    'Limited storage',
+                    'Rental restrictions'
+                ],
+                'Villa': [
+                    'High utility costs',
+                    'Expensive maintenance',
+                    'Large property to maintain',
+                    'Higher taxes',
+                    'Older systems'
+                ],
+                'Farmhouse': [
+                    'Remote location',
+                    'Older plumbing',
+                    'Heating costs',
+                    'Well/septic system',
+                    'Older electrical'
+                ]
+            };
+            
+            const conditionCons = {
+                'Excellent': [
+                    'Higher price point',
+                    'Competitive market',
+                    'May need personal touches'
+                ],
+                'Good': [
+                    'Some cosmetic updates needed',
+                    'Older appliances',
+                    'Partial updates'
+                ],
+                'Fair': [
+                    'Needs some repairs',
+                    'Cosmetically dated',
+                    'Older systems'
+                ],
+                'Needs Work': [
+                    'Significant repairs needed',
+                    'Not move-in ready',
+                    'Major systems outdated'
+                ],
+                'Recently Renovated': [
+                    'Higher price for updates',
+                    'May have rushed work',
+                    'New but not custom'
+                ]
+            };
+            
+            const cons = [
+                ...(typeCons[type] || []),
+                ...(conditionCons[condition] || [])
+            ];
+            
+            return shuffleArray(cons).slice(0, 3); // Return 3 random cons
+        }
+        
+        function generateRealisticNeighborhoodData(country) {
+            const neighborhoodTypes = [
+                'Suburban', 'Urban', 'Rural', 'Downtown', 'Waterfront', 
+                'Historic', 'Gated Community', 'Cul-de-sac', 'College Town'
+            ];
+            
+            const name = [
+                'Pinecrest', 'Willowbrook', 'Oak Hills', 'Maplewood', 'Greenfield',
+                'Riverside', 'Highland Park', 'Sunset Hills', 'Meadowbrook'
+            ][Math.floor(Math.random() * 9)];
+            
+            const type = neighborhoodTypes[Math.floor(Math.random() * neighborhoodTypes.length)];
+            
+            return {
+                name: `${name} ${type}`,
+                walkScore: Math.floor(Math.random() * 100),
+                transitScore: Math.floor(Math.random() * 100),
+                bikeScore: Math.floor(Math.random() * 100),
+                safety: Math.floor(Math.random() * 10) + 1,
+                schools: Math.floor(Math.random() * 10) + 1,
+                amenities: Math.floor(Math.random() * 10) + 1,
+                appreciation: (Math.random() * 10 + 2).toFixed(1) + '%', // 2-12%
+                summary: `The ${name} neighborhood in ${country} is a ${['vibrant', 'quiet', 'up-and-coming', 'established', 'family-friendly'][Math.floor(Math.random() * 5)]} ${type.toLowerCase()} area with ${['excellent', 'good', 'average', 'improving'][Math.floor(Math.random() * 4)]} amenities and ${['top-rated', 'good', 'decent', 'improving'][Math.floor(Math.random() * 4)]} schools.`
+            };
+        }
+        
+        function generateRealisticPriceHistory(settings) {
+            const months = 12;
+            const history = [];
+            
+            // Start with current price and work backwards
+            const currentPrice = Math.floor(Math.random() * 1000000) + 200000;
+            const volatility = 0.01 + Math.random() * 0.02; // 1-3% monthly volatility
+            
+            for (let i = months - 1; i >= 0; i--) {
+                const date = new Date(new Date().setMonth(new Date().getMonth() - i));
+                const month = date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+                
+                // Simulate price changes with some randomness
+                const priceChange = (Math.random() * 2 - 1) * volatility * currentPrice;
+                const price = i === months - 1 ? currentPrice : history[history.length - 1].value + priceChange;
+                
+                history.push({
+                    date: month,
+                    value: Math.max(currentPrice * 0.9, Math.floor(price)) // Don't let it drop more than 10%
+                });
+            }
+            
+            return history;
+        }
+        
+        function generateRealisticComparableProperties(settings, propertyType) {
+            const count = 5;
+            const comparables = [];
+            
+            for (let i = 0; i < count; i++) {
+                const basePrice = generateRealisticPrice(propertyType, settings.countryName);
+                const price = basePrice * (0.9 + Math.random() * 0.2); // 90-110% of base price
+                const sqft = generateRealisticSqft(propertyType) * (0.9 + Math.random() * 0.2); // 90-110% of base size
+                
+                comparables.push({
+                    address: generateRealisticAddress(settings.countryName),
+                    price: Math.floor(price),
+                    sqft: Math.floor(sqft),
+                    pricePerSqft: Math.floor(price / sqft),
+                    beds: generateRealisticBedCount(propertyType),
+                    baths: generateRealisticBathCount(),
+                    rentEstimate: calculateRentEstimate(price, propertyType, settings.countryName),
+                    score: Math.floor(Math.random() * 30) + 70 // 70-100
+                });
+            }
+            
+            // Sort by price per sqft
+            return comparables.sort((a, b) => a.pricePerSqft - b.pricePerSqft);
+        }
+        
+        function calculateRentEstimate(price, propertyType, country) {
+            // Different property types have different rental yields
+            const yieldRanges = {
+                'Single Family Home': 0.0045, // 0.45% monthly
+                'Condo': 0.0055, // 0.55% monthly
+                'Townhouse': 0.005, // 0.5% monthly
+                'Apartment': 0.006, // 0.6% monthly
+                'Villa': 0.004, // 0.4% monthly
+                'Farmhouse': 0.0035 // 0.35% monthly
+            };
+            
+            // Country adjustment factors for rental yields
+            const countryFactors = {
+                'Argentina': 1.2,
+                'Australia': 0.9,
+                'Brazil': 1.3,
+                'Canada': 1.0,
+                'China': 1.1,
+                'France': 0.9,
+                'Germany': 0.8,
+                'India': 1.4,
+                'Indonesia': 1.5,
+                'Italy': 0.9,
+                'Japan': 0.7,
+                'Mexico': 1.3,
+                'Russia': 1.2,
+                'Saudi Arabia': 0.8,
+                'South Africa': 1.1,
+                'South Korea': 0.7,
+                'Turkey': 1.2,
+                'United Kingdom': 0.9,
+                'United States': 1.0,
+                'European Union': 0.9
+            };
+            
+            const baseYield = yieldRanges[propertyType] || 0.005;
+            const countryFactor = countryFactors[country] || 1.0;
+            const adjustedYield = baseYield * countryFactor;
+            
+            const variation = adjustedYield * 0.2 * (Math.random() * 2 - 1); // -20% to +20%
+            
+            return Math.floor(price * (adjustedYield + variation));
+        }
+        
+        function generateRealisticCrimeData() {
+            const crimeTypes = ['Theft', 'Burglary', 'Assault', 'Vandalism', 'Drugs', 'Other'];
+            const data = {};
+            
+            crimeTypes.forEach(type => {
+                // Base rates with some variation
+                const baseRates = {
+                    'Theft': 15,
+                    'Burglary': 8,
+                    'Assault': 5,
+                    'Vandalism': 10,
+                    'Drugs': 7,
+                    'Other': 12
+                };
+                
+                const base = baseRates[type];
+                const variation = base * 0.3 * (Math.random() * 2 - 1); // -30% to +30%
+                data[type] = Math.max(0, Math.floor(base + variation)); // Don't go below 0
+            });
+            
+            return data;
+        }
+        
+        function calculateRealisticInvestmentScore(property) {
+            // Calculate score based on multiple factors (0-100)
+            let score = 60; // Base score
+            
+            // Adjust based on various factors
+            score += property.neighborhood.safety * 3;
+            score += property.neighborhood.schools * 2;
+            score += property.neighborhood.amenities;
+            score += (property.neighborhood.walkScore / 10) * 1.5;
+            
+            // Adjust for price per sqft (lower is better)
+            const avgPricePerSqft = property.comparableProperties.reduce((sum, comp) => sum + comp.pricePerSqft, 0) / property.comparableProperties.length;
+            if (property.pricePerUnit < avgPricePerSqft * 0.9) score += 10;
+            else if (property.pricePerUnit > avgPricePerSqft * 1.1) score -= 10;
+            
+            // Adjust for rent potential
+            const grossYield = (property.rentEstimate * 12 / property.price) * 100;
+            if (grossYield > 8) score += 15;
+            else if (grossYield > 6) score += 10;
+            else if (grossYield > 4) score += 5;
+            
+            // Adjust for property condition
+            const conditionScores = {
+                'Excellent': 10,
+                'Good': 5,
+                'Fair': 0,
+                'Needs Work': -5,
+                'Recently Renovated': 8
+            };
+            
+            score += conditionScores[property.propertyCondition] || 0;
+            
+            // Ensure score is between 0-100
+            return Math.min(100, Math.max(0, Math.floor(score)));
+        }
+        
+        function calculateRealisticNegotiationRange(price, propertyType) {
+            // Different property types have different negotiation ranges
+            const ranges = {
+                'Single Family Home': { min: 0.85, max: 0.92 },
+                'Condo': { min: 0.88, max: 0.95 },
+                'Townhouse': { min: 0.86, max: 0.93 },
+                'Apartment': { min: 0.90, max: 0.97 },
+                'Villa': { min: 0.80, max: 0.90 },
+                'Farmhouse': { min: 0.82, max: 0.91 }
+            };
+            
+            const range = ranges[propertyType] || { min: 0.85, max: 0.93 };
+            
+            // Add some small variation
+            const minVariation = range.min * 0.03 * (Math.random() * 2 - 1);
+            const maxVariation = range.max * 0.03 * (Math.random() * 2 - 1);
+            
+            return {
+                min: Math.floor(price * (range.min + minVariation)),
+                max: Math.floor(price * (range.max + maxVariation)),
+                current: price,
+                markerPosition: 50 + (Math.random() * 10 - 5) // 45-55%
+            };
+        }
+        
+        // Function to display property analysis
+        function displayPropertyAnalysis(data, settings) {
+            // Set basic info
+            document.getElementById('propertyValue').textContent = 
+                `${settings.currencySymbol}${data.price.toLocaleString()}`;
+            document.getElementById('propertyCurrency').textContent = 
+                `Current market valuation (${settings.currency})`;
+            
+            // Set investment score
+            document.getElementById('investmentScore').textContent = data.investmentScore;
+            
+            // Set negotiation range
+            const range = data.negotiationRange;
+            document.getElementById('negotiationRange').textContent = 
+                `${settings.currencySymbol}${range.min.toLocaleString()} - ${settings.currencySymbol}${range.max.toLocaleString()}`;
+            
+            const rangeWidth = range.max - range.min;
+            const markerPos = ((data.price - range.min) / rangeWidth) * 100;
+            
+            document.getElementById('negotiationRangeFill').style.width = `${markerPos}%`;
+            document.getElementById('negotiationMarker').style.left = `${markerPos}%`;
+            document.getElementById('minPrice').textContent = `${settings.currencySymbol}${range.min.toLocaleString()}`;
+            document.getElementById('maxPrice').textContent = `${settings.currencySymbol}${range.max.toLocaleString()}`;
+            
+            // Initialize map
+            initPropertyMap(data.location, data.address);
+            
+            // Set property images
+            const gallery = document.getElementById('propertyGallery');
+            gallery.innerHTML = '';
+            
+            data.images.forEach((img, index) => {
+                const imgElem = document.createElement('img');
+                imgElem.src = img;
+                imgElem.alt = `Property image ${index + 1}`;
+                imgElem.className = 'property-image';
+                imgElem.loading = 'lazy';
+                gallery.appendChild(imgElem);
+            });
+            
+            // Set property details
+            const detailsContainer = document.getElementById('propertyDetails');
+            detailsContainer.innerHTML = `
+                <div class="detail-card">
+                    <h4>Basic Information</h4>
+                    <div class="detail-item">
+                        <span class="detail-label">Address:</span>
+                        <span class="detail-value">${data.address}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Country:</span>
+                        <span class="detail-value">${data.country}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Property Type:</span>
+                        <span class="detail-value">${data.propertyType}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Style:</span>
+                        <span class="detail-value">${data.propertyStyle}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Condition:</span>
+                        <span class="detail-value">${data.propertyCondition}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Year Built:</span>
+                        <span class="detail-value">${data.yearBuilt}</span>
+                    </div>
                 </div>
                 
-                <div class="result-card">
-                    <h3>Bedrooms</h3>
-                    <div class="result-value">${property1.beds} vs ${property2.beds}</div>
-                    <div class="result-label">${property1.beds > property2.beds ? 'Property 1 has more bedrooms' : 'Property 2 has more bedrooms'}</div>
+                <div class="detail-card">
+                    <h4>Size Information</h4>
+                    <div class="detail-item">
+                        <span class="detail-label">Living Area:</span>
+                        <span class="detail-value">${data.sqft.toLocaleString()} ${settings.areaUnit}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Price/${settings.areaUnit}:</span>
+                        <span class="detail-value">${settings.currencySymbol}${data.pricePerUnit.toLocaleString()}</span>
+                    </div>
+                    ${data.lotSize > 0 ? `
+                    <div class="detail-item">
+                        <span class="detail-label">Lot Size:</span>
+                        <span class="detail-value">${data.lotSize.toLocaleString()} ${settings.areaUnit}</span>
+                    </div>
+                    ` : ''}
+                    <div class="detail-item">
+                        <span class="detail-label">Bedrooms:</span>
+                        <span class="detail-value">${data.beds}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Bathrooms:</span>
+                        <span class="detail-value">${data.baths}</span>
+                    </div>
                 </div>
                 
-                <div class="result-card">
-                    <h3>Bathrooms</h3>
-                    <div class="result-value">${property1.baths} vs ${property2.baths}</div>
-                    <div class="result-label">${property1.baths > property2.baths ? 'Property 1 has more bathrooms' : 'Property 2 has more bathrooms'}</div>
+                <div class="detail-card">
+                    <h4>Financial Information</h4>
+                    <div class="detail-item">
+                        <span class="detail-label">List Price:</span>
+                        <span class="detail-value">${settings.currencySymbol}${data.price.toLocaleString()}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Rent Estimate:</span>
+                        <span class="detail-value">${settings.currencySymbol}${data.rentEstimate.toLocaleString()}/mo</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Gross Yield:</span>
+                        <span class="detail-value">${((data.rentEstimate * 12 / data.price) * 100).toFixed(1)}%</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Annual Appreciation:</span>
+                        <span class="detail-value">${data.neighborhood.appreciation}</span>
+                    </div>
                 </div>
                 
-                <div class="result-card">
-                    <h3>Square Footage</h3>
-                    <div class="result-value">${property1.sqft.toLocaleString()} vs ${property2.sqft.toLocaleString()}</div>
-                    <div class="result-label">${property1.sqft > property2.sqft ? 'Property 1 is larger' : 'Property 2 is larger'}</div>
+                <div class="detail-card">
+                    <h4>Neighborhood Information</h4>
+                    <div class="detail-item">
+                        <span class="detail-label">Name:</span>
+                        <span class="detail-value">${data.neighborhood.name}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Walk Score:</span>
+                        <span class="detail-value">${data.neighborhood.walkScore}/100</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Transit Score:</span>
+                        <span class="detail-value">${data.neighborhood.transitScore}/100</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Bike Score:</span>
+                        <span class="detail-value">${data.neighborhood.bikeScore}/100</span>
+                    </div>
                 </div>
             `;
             
-            // Render comparison chart
-            renderComparisonChart(property1, property2);
-        }
-        
-        // Function to estimate rent
-        function estimateRent() {
-            const property = document.getElementById('rentProperty').value;
-            
-            if (!property) {
-                alert('Please enter a property');
-                return;
-            }
-            
-            // In a real app, you would fetch data from an API
-            // Here we'll use our sample data
-            const propertyData = sampleProperties['123 Main St'];
-            
-            document.getElementById('estimatedRent').textContent = `$${propertyData.rentEstimate}`;
-            document.getElementById('rentalYield').textContent = `${((propertyData.rentEstimate * 12) / propertyData.price * 100).toFixed(1)}%`;
-            
-            // Render rent trend chart
-            renderRentTrendChart();
-        }
-        
-        // Function to analyze pros and cons
-        function analyzeProsCons() {
-            const property = document.getElementById('prosConsProperty').value;
-            
-            if (!property) {
-                alert('Please enter a property');
-                return;
-            }
-            
-            // In a real app, you would fetch data from an API
-            // Here we'll use our sample data
-            const propertyData = sampleProperties['123 Main St'];
-            
-            const prosList = document.getElementById('prosList');
-            const consList = document.getElementById('consList');
+            // Set pros and cons
+            const prosList = document.getElementById('propertyPros');
+            const consList = document.getElementById('propertyCons');
             
             prosList.innerHTML = '';
             consList.innerHTML = '';
             
-            propertyData.pros.forEach(pro => {
+            data.pros.forEach(pro => {
                 const li = document.createElement('li');
                 li.className = 'pro';
                 li.innerHTML = `<i class="fas fa-check-circle"></i> ${pro}`;
                 prosList.appendChild(li);
             });
             
-            propertyData.cons.forEach(con => {
+            data.cons.forEach(con => {
                 const li = document.createElement('li');
                 li.className = 'con';
                 li.innerHTML = `<i class="fas fa-times-circle"></i> ${con}`;
                 consList.appendChild(li);
             });
-        }
-        
-        // Function to analyze neighborhood
-        function analyzeNeighborhood() {
-            const property = document.getElementById('neighborhoodProperty').value;
             
-            if (!property) {
-                alert('Please enter a property');
-                return;
-            }
-            
-            // In a real app, you would fetch data from an API
-            // Here we'll use our sample data
-            const propertyData = sampleProperties['123 Main St'];
-            
-            document.getElementById('neighborhoodSummary').textContent = propertyData.neighborhood.summary;
-            
+            // Set neighborhood factors
             const factorsContainer = document.getElementById('neighborhoodFactors');
             factorsContainer.innerHTML = `
                 <div class="factor">
-                    <div class="factor-score ${getScoreClass(propertyData.neighborhood.safety)}">${propertyData.neighborhood.safety}</div>
+                    <div class="factor-score ${getScoreClass(data.neighborhood.safety)}">${data.neighborhood.safety}</div>
                     <div class="factor-label">Safety</div>
                 </div>
                 <div class="factor">
-                    <div class="factor-score ${getScoreClass(propertyData.neighborhood.schools)}">${propertyData.neighborhood.schools}</div>
+                    <div class="factor-score ${getScoreClass(data.neighborhood.schools)}">${data.neighborhood.schools}</div>
                     <div class="factor-label">Schools</div>
                 </div>
                 <div class="factor">
-                    <div class="factor-score ${getScoreClass(propertyData.neighborhood.walkability)}">${propertyData.neighborhood.walkability}</div>
+                    <div class="factor-score ${getScoreClass(data.neighborhood.amenities)}">${data.neighborhood.amenities}</div>
+                    <div class="factor-label">Amenities</div>
+                </div>
+                <div class="factor">
+                    <div class="factor-score ${getScoreClass(Math.floor(data.neighborhood.walkScore / 10))}">${Math.floor(data.neighborhood.walkScore / 10)}</div>
                     <div class="factor-label">Walkability</div>
                 </div>
                 <div class="factor">
-                    <div class="factor-score ${getScoreClass(propertyData.neighborhood.amenities)}">${propertyData.neighborhood.amenities}</div>
-                    <div class="factor-label">Amenities</div>
+                    <div class="factor-score ${getScoreClass(Math.floor(data.neighborhood.transitScore / 10))}">${Math.floor(data.neighborhood.transitScore / 10)}</div>
+                    <div class="factor-label">Transit</div>
                 </div>
             `;
             
-            const amenitiesList = document.getElementById('amenitiesList');
-            amenitiesList.innerHTML = '<ul style="list-style-type: none;">' + 
-                propertyData.amenities.map(amenity => `<li style="margin-bottom: 0.5rem;"><i class="fas fa-map-marker-alt" style="margin-right: 0.5rem; color: var(--primary);"></i> ${amenity}</li>`).join('') + 
-                '</ul>';
+            // Render charts
+            renderValueTrendChart(data.priceHistory, settings);
+            renderCrimeChart(data.crimeData);
+            renderComparisonChart(data, settings);
             
-            // Render crime chart
-            renderCrimeChart();
+            // Set comparable properties table
+            const comparablesTable = document.getElementById('comparableProperties');
+            comparablesTable.innerHTML = '';
+            
+            data.comparableProperties.forEach((prop, index) => {
+                const row = document.createElement('tr');
+                
+                // Highlight if this is the current property
+                const isCurrent = index === Math.floor(data.comparableProperties.length / 2);
+                
+                row.innerHTML = `
+                    <td>${prop.address}</td>
+                    <td>${settings.currencySymbol}${prop.price.toLocaleString()}</td>
+                    <td>${prop.sqft.toLocaleString()} ${settings.areaUnit}</td>
+                    <td class="${isCurrent ? 'better' : prop.pricePerSqft < data.pricePerUnit ? 'better' : 'worse'}">
+                        ${settings.currencySymbol}${prop.pricePerSqft.toLocaleString()}
+                        ${isCurrent ? '' : prop.pricePerSqft < data.pricePerUnit ? '✓' : '✗'}
+                    </td>
+                    <td>${settings.currencySymbol}${prop.rentEstimate.toLocaleString()}/mo</td>
+                    <td>${prop.score}/100</td>
+                `;
+                
+                comparablesTable.appendChild(row);
+            });
+        }
+        
+        // Initialize property map
+        function initPropertyMap(location, address) {
+            const mapContainer = document.getElementById('propertyMap');
+            mapContainer.innerHTML = ''; // Clear previous map
+            
+            const map = new google.maps.Map(mapContainer, {
+                center: location,
+                zoom: 15,
+                mapTypeId: 'roadmap',
+                styles: [
+                    {
+                        "featureType": "administrative",
+                        "elementType": "labels.text.fill",
+                        "stylers": [
+                            {
+                                "color": "#444444"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "landscape",
+                        "elementType": "all",
+                        "stylers": [
+                            {
+                                "color": "#f2f2f2"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "poi",
+                        "elementType": "all",
+                        "stylers": [
+                            {
+                                "visibility": "off"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road",
+                        "elementType": "all",
+                        "stylers": [
+                            {
+                                "saturation": -100
+                            },
+                            {
+                                "lightness": 45
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road.highway",
+                        "elementType": "all",
+                        "stylers": [
+                            {
+                                "visibility": "simplified"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "road.arterial",
+                        "elementType": "labels.icon",
+                        "stylers": [
+                            {
+                                "visibility": "off"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "transit",
+                        "elementType": "all",
+                        "stylers": [
+                            {
+                                "visibility": "off"
+                            }
+                        ]
+                    },
+                    {
+                        "featureType": "water",
+                        "elementType": "all",
+                        "stylers": [
+                            {
+                                "color": "#4f46e5"
+                            },
+                            {
+                                "visibility": "on"
+                            }
+                        ]
+                    }
+                ]
+            });
+            
+            new google.maps.Marker({
+                position: location,
+                map: map,
+                title: address
+            });
         }
         
         // Helper function to get score class
@@ -1229,96 +2496,22 @@
             return 'score-low';
         }
         
-        // Function to search property
-        function searchProperty() {
-            const property = document.getElementById('propertySearch').value;
-            
-            if (!property) {
-                alert('Please enter a property');
-                return;
-            }
-            
-            // In a real app, this would redirect to a search results page
-            // For this demo, we'll just show an alert
-            alert(`Searching for: ${property}\n\nIn a real implementation, this would show search results.`);
-        }
-        
         // Chart rendering functions
-        function renderComparisonChart(prop1, prop2) {
-            const ctx = document.getElementById('comparisonChart').getContext('2d');
+        function renderValueTrendChart(priceHistory, settings) {
+            const ctx = document.getElementById('valueTrendChart').getContext('2d');
             
-            if (window.comparisonChart) {
-                window.comparisonChart.destroy();
+            // Destroy previous chart if it exists
+            if (window.valueTrendChart && typeof window.valueTrendChart.destroy === 'function') {
+                window.valueTrendChart.destroy();
             }
             
-            window.comparisonChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Price', 'Bedrooms', 'Bathrooms', 'Square Feet', 'Year Built', 'Rent Estimate'],
-                    datasets: [
-                        {
-                            label: 'Property 1',
-                            data: [prop1.price, prop1.beds, prop1.baths, prop1.sqft, prop1.yearBuilt, prop1.rentEstimate],
-                            backgroundColor: 'rgba(79, 70, 229, 0.7)',
-                            borderColor: 'rgba(79, 70, 229, 1)',
-                            borderWidth: 1
-                        },
-                        {
-                            label: 'Property 2',
-                            data: [prop2.price, prop2.beds, prop2.baths, prop2.sqft, prop2.yearBuilt, prop2.rentEstimate],
-                            backgroundColor: 'rgba(16, 185, 129, 0.7)',
-                            borderColor: 'rgba(16, 185, 129, 1)',
-                            borderWidth: 1
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    },
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed.y !== null) {
-                                        if (context.dataIndex === 0 || context.dataIndex === 3) {
-                                            label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
-                                        } else if (context.dataIndex === 5) {
-                                            label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y) + '/mo';
-                                        } else {
-                                            label += context.parsed.y;
-                                        }
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-        
-        function renderRentTrendChart() {
-            const ctx = document.getElementById('rentTrendChart').getContext('2d');
-            
-            if (window.rentTrendChart) {
-                window.rentTrendChart.destroy();
-            }
-            
-            window.rentTrendChart = new Chart(ctx, {
+            window.valueTrendChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    labels: priceHistory.map(item => item.date),
                     datasets: [{
-                        label: 'Average Rent ($)',
-                        data: [2100, 2150, 2200, 2250, 2300, 2350, 2300, 2250, 2200, 2150, 2200, 2250],
+                        label: 'Property Value Trend',
+                        data: priceHistory.map(item => item.value),
                         fill: false,
                         backgroundColor: 'rgba(79, 70, 229, 1)',
                         borderColor: 'rgba(79, 70, 229, 0.7)',
@@ -1327,16 +2520,20 @@
                 },
                 options: {
                     responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: false
-                        }
-                    },
                     plugins: {
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    return 'Average Rent: $' + context.parsed.y;
+                                    return 'Value: ' + settings.currencySymbol + context.parsed.y.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: {
+                                callback: function(value) {
+                                    return settings.currencySymbol + value.toLocaleString();
                                 }
                             }
                         }
@@ -1345,55 +2542,119 @@
             });
         }
         
-        function renderCrimeChart() {
+        function renderCrimeChart(crimeData) {
             const ctx = document.getElementById('crimeChart').getContext('2d');
             
-            if (window.crimeChart) {
+            // Destroy previous chart if it exists
+            if (window.crimeChart && typeof window.crimeChart.destroy === 'function') {
                 window.crimeChart.destroy();
             }
             
             window.crimeChart = new Chart(ctx, {
-                type: 'radar',
+                type: 'bar',
                 data: {
-                    labels: ['Theft', 'Burglary', 'Assault', 'Vandalism', 'Drugs', 'Other'],
+                    labels: Object.keys(crimeData),
                     datasets: [{
                         label: 'Crime Incidents (per 1000 people)',
-                        data: [12, 8, 5, 7, 4, 6],
-                        backgroundColor: 'rgba(79, 70, 229, 0.2)',
+                        data: Object.values(crimeData),
+                        backgroundColor: 'rgba(79, 70, 229, 0.7)',
                         borderColor: 'rgba(79, 70, 229, 1)',
-                        pointBackgroundColor: 'rgba(79, 70, 229, 1)',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgba(79, 70, 229, 1)'
+                        borderWidth: 1
                     }]
                 },
                 options: {
                     responsive: true,
                     scales: {
-                        r: {
-                            angleLines: {
-                                display: true
-                            },
-                            suggestedMin: 0,
-                            suggestedMax: 15
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Incidents per 1000 people'
+                            }
                         }
                     }
                 }
             });
         }
         
-        // Initialize with sample data for demo purposes
-        document.getElementById('property1').value = '123 Main St';
-        document.getElementById('property2').value = '456 Oak Ave';
-        document.getElementById('rentProperty').value = '123 Main St';
-        document.getElementById('prosConsProperty').value = '123 Main St';
-        document.getElementById('neighborhoodProperty').value = '123 Main St';
+        function renderComparisonChart(propertyData, settings) {
+            const ctx = document.getElementById('comparisonChart').getContext('2d');
+            
+            // Destroy previous chart if it exists
+            if (window.comparisonChart && typeof window.comparisonChart.destroy === 'function') {
+                window.comparisonChart.destroy();
+            }
+            
+            // Prepare data for comparison chart
+            const labels = ['Current', 'Avg Comparable'];
+            const currentPricePerUnit = propertyData.pricePerUnit;
+            const avgComparable = propertyData.comparableProperties.reduce((sum, comp) => sum + comp.pricePerSqft, 0) / propertyData.comparableProperties.length;
+            
+            window.comparisonChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: `Price per ${settings.areaUnit} (${settings.currency})`,
+                        data: [currentPricePerUnit, avgComparable],
+                        backgroundColor: [
+                            'rgba(79, 70, 229, 0.7)',
+                            'rgba(16, 185, 129, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(79, 70, 229, 1)',
+                            'rgba(16, 185, 129, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Price: ' + settings.currencySymbol + context.parsed.y.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return settings.currencySymbol + value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
         
-        // Run initial comparisons for demo
-        compareProperties();
-        estimateRent();
-        analyzeProsCons();
-        analyzeNeighborhood();
+        // Function to show error messages
+        function showError(element, message) {
+            element.textContent = message;
+            element.style.display = 'block';
+        }
+        
+        // Helper function to shuffle arrays
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        
+        // Initialize Google Maps Autocomplete when API is loaded
+        window.initAutocomplete = initAutocomplete;
+    </script>
+    
+    <!-- Load Google Maps API with callback -->
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzbQ_53CI7Yot2aJq8yQwBljQvJ2vX5lY&libraries=places&callback=initAutocomplete">
     </script>
 </body>
 </html>
